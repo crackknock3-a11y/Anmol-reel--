@@ -1,413 +1,343 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Anmol — A Little Love</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Anmol — Cinematic Love</title>
 
-<!-- Dancing Script for romantic look -->
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700;600&display=swap" rel="stylesheet">
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700;600&display=swap" rel="stylesheet">
 
-<style>
-  :root{
-    --accent:#e63946;
-    --soft:#ffddee;
-    --card-bg: rgba(255,255,255,0.96);
-    --text: #3b0b2e;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:'Dancing Script', cursive;background: linear-gradient(135deg,#ffefeF,#ffe2e9);color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-  /* Container centers content */
-  .wrap{
-    width:100%;
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    position:relative;
-    overflow:hidden;
-  }
+  <!-- GSAP for cinematic animation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
 
-  /* subtle animated background particles (CSS-only "sparkles") */
-  .sparkle-bg{
-    position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden;
-  }
-  .sparkle{
-    position:absolute; width:6px; height:6px; background: #fff; border-radius:50%; opacity:0.9; box-shadow:0 0 10px rgba(255,255,255,0.6);
-    animation: sparkleFloat linear infinite;
-  }
-  @keyframes sparkleFloat{
-    from{transform:translateY(120vh) scale(0);opacity:0}
-    20%{opacity:1}
-    100%{transform:translateY(-40vh) scale(0.6);opacity:0}
-  }
+  <style>
+    :root{
+      --accent:#e63946;
+      --bg1: #fff0f6;
+      --bg2: #fff7fb;
+      --card: rgba(255,255,255,0.96);
+      --text:#3b0b2e;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:'Dancing Script', cursive;background:linear-gradient(135deg,#ffeef4,#fff6fb);color:var(--text);-webkit-font-smoothing:antialiased}
+    .center {display:flex;align-items:center;justify-content:center}
+    /* stage */
+    .stage {min-height:100vh; position:relative; overflow:hidden; padding:28px;}
+    .layout {max-width:1100px;margin:0 auto; display:grid; grid-template-columns:1fr 420px; gap:28px; align-items:center}
+    @media (max-width:980px) { .layout {grid-template-columns: 1fr; padding:0 8px} }
 
-  /* Envelope landing block */
-  .stage{
-    z-index:5;
-    width:100%;
-    max-width:920px;
-    margin:0 auto;
-    display:grid;
-    grid-template-columns: 1fr 480px;
-    gap:24px;
-    align-items:center;
-    padding:30px;
-  }
+    /* cinematic left panel */
+    .cinema {
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,250,250,0.95));
+      border-radius:20px; padding:28px; box-shadow: 0 28px 80px rgba(0,0,0,0.12); position:relative; overflow:hidden; min-height:520px;
+    }
 
-  /* Left cinematic card area (for video-like composition) */
-  .cinema{
-    background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,250,250,0.95));
-    border-radius:22px;
-    padding:28px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
-    position:relative;
-    overflow:hidden;
-    min-height:420px;
-  }
+    /* envelope */
+    .envelope-wrap {height:100%; display:flex;align-items:center;justify-content:center; position:relative}
+    .envelope {
+      width:520px; height:360px; border-radius:18px; background:linear-gradient(180deg,var(--accent),#b32030);
+      box-shadow:0 20px 50px rgba(0,0,0,0.25); position:relative; cursor:pointer; transform-origin:center;
+    }
+    .flap {position:absolute; left:0; top:0; width:100%; height:55%; background: linear-gradient(180deg,#ff6b95,#c6282e); clip-path: polygon(0 0,50% 100%,100% 0); transform-origin:top; }
+    .body {
+      position:absolute; left:6%; right:6%; bottom:8%; top:48%; background:linear-gradient(#fff4f8,#fff8fb); border-radius:10px;
+      display:flex;align-items:center;justify-content:center;color:var(--text); font-size:20px; padding:18px; text-align:center;
+      box-shadow: inset 0 -6px 18px rgba(0,0,0,0.06);
+    }
+    .open-hint {position:absolute; bottom:14px; left:50%; transform:translateX(-50%); color:#fff; font-size:14px; opacity:.95}
 
-  /* Big envelope */
-  .envelope-wrap{
-    display:flex;align-items:center;justify-content:center;height:100%;
-  }
-  .envelope{
-    width:420px;height:300px;border-radius:18px;background:linear-gradient(180deg,var(--accent),#c6282e);position:relative;box-shadow:0 18px 40px rgba(0,0,0,0.25);cursor:pointer;transform-origin:center;transition:transform .25s ease;
-  }
-  .envelope:hover{transform:translateY(-6px) rotate(-1deg) scale(1.02)}
-  .envelope .flap{
-    position:absolute;left:0;top:0;width:100%;height:52%;background:linear-gradient(180deg,#ff6b95,#c6282e);clip-path:polygon(0 0, 50% 100%, 100% 0);transform-origin:top;transition:transform .6s cubic-bezier(.2,.8,.2,1);
-  }
-  .envelope .body{
-    position:absolute;left:6%;right:6%;bottom:8%;top:44%;background:linear-gradient(#ffdff0,#ffeef4);border-radius:8px;padding:18px;display:flex;align-items:center;justify-content:center;color:var(--text);font-size:20px;
-    box-shadow: inset 0 -6px 18px rgba(0,0,0,0.06);
-  }
-  /* small "open" hint */
-  .hint{
-    position:absolute; bottom:12px; left:50%; transform:translateX(-50%); color:#fff; font-size:14px; opacity:0.95;
-  }
+    /* overlay message (big card) */
+    .overlay {
+      position:fixed; inset:0; z-index:80; display:none; align-items:center; justify-content:center; background: rgba(0,0,0,0.28);
+      backdrop-filter: blur(4px);
+    }
+    .msg-card {
+      width:92%; max-width:920px; background:var(--card); border-radius:20px; padding:32px; box-shadow:0 40px 120px rgba(0,0,0,0.28); position:relative;
+      text-align:center;
+    }
+    .msg-title {font-size:44px; margin-bottom:10px}
+    .msg-body {font-size:22px; line-height:1.45; color:var(--text); max-width:820px; margin:0 auto}
+    .msg-sub {font-size:18px; margin-top:18px; opacity:0.9}
 
-  /* Right column: preview / instructions */
-  .right{
-    display:flex;flex-direction:column;gap:14px;align-items:flex-start;justify-content:center;
-  }
-  .title{
-    font-size:34px;color:var(--text);margin-bottom:6px;
-  }
-  .subtitle{font-size:16px; opacity:0.85; max-width:360px}
+    .close-x {
+      position:absolute; right:16px; top:16px; width:56px; height:56px; border-radius:50%; border:none;
+      background:var(--accent); color:#fff; font-size:22px; cursor:pointer; box-shadow:0 12px 28px rgba(0,0,0,0.16);
+    }
 
-  /* Message Screen (full width overlay inside wrap) */
-  .message-screen{
-    position:absolute;inset:0;z-index:30;display:none;align-items:center;justify-content:center;padding:30px;
-    background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));
-  }
-  .message-card{
-    width:92%;max-width:860px;background:var(--card-bg);border-radius:20px;padding:36px;box-shadow:0 30px 80px rgba(0,0,0,0.35);position:relative;transform-origin:center;
-    animation: cardIn .6s cubic-bezier(.2,.9,.2,1);
-  }
-  @keyframes cardIn { from{transform:scale(.95) translateY(10px);opacity:0} to{transform:scale(1) translateY(0);opacity:1} }
+    /* right panel: instructions/thumb */
+    .right {
+      display:flex; flex-direction:column; gap:16px; align-items:flex-start;
+    }
+    .title {font-size:30px}
+    .subtitle {opacity:0.85}
 
-  .msg-title{font-size:46px;margin:6px 0 12px}
-  .msg-body{font-size:22px;line-height:1.45;color:var(--text);max-width:760px;margin:0 auto;text-align:center}
-  .msg-sub{font-size:20px;margin-top:18px;text-align:center}
+    /* songs screen */
+    .songs-screen { position:fixed; inset:0; z-index:70; display:none; overflow:auto; background: linear-gradient(180deg,#fff7fb,#fff1f6); padding:28px; }
+    .songs-inner {max-width:1100px; margin:18px auto; display:flex; flex-direction:column; gap:18px}
+    .songs-header {display:flex; justify-content:space-between; align-items:center}
+    .songs-title {font-size:28px}
+    .playlist {display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px}
+    .track {
+      background:#fff; padding:14px; border-radius:12px; box-shadow:0 18px 40px rgba(0,0,0,0.06); cursor:pointer; display:flex;flex-direction:column; gap:8px;
+    }
+    .track:hover {transform:translateY(-6px); transition:transform .25s}
 
-  .btn-close{
-    position:absolute;top:18px;right:18px;width:56px;height:56px;border-radius:50%;border:none;background:var(--accent);color:#fff;font-size:22px;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,0.2)
-  }
+    .player-sticky {position:sticky; bottom:18px; background:rgba(255,255,255,0.98); padding:12px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.08); display:flex; gap:12px; align-items:center}
 
-  /* Songs screen */
-  .songs-screen{
-    position:absolute;inset:0;z-index:20;padding:28px;display:none;overflow:auto;background:linear-gradient(180deg,#fff7fb,#fff1f6);
-  }
-  .songs-inner{max-width:1100px;margin:20px auto;display:flex;gap:24px;flex-direction:column}
-  .songs-header{display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .songs-title{font-size:30px}
-  .playlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:18px}
-  .track{
-    background:#fff;border-radius:12px;padding:14px;border:1px solid rgba(0,0,0,0.04);box-shadow:0 10px 30px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:10px;cursor:pointer;
-  }
-  .track:hover{transform:translateY(-6px);transition:transform .25s}
-  .track .name{font-size:20px}
-  .track .meta{font-size:13px;opacity:0.75}
+    /* floating cats & hearts */
+    .floating {position:fixed; pointer-events:none; z-index:60}
+    .cat {width:80px; border-radius:12px; box-shadow:0 18px 40px rgba(0,0,0,0.12)}
+    .heart {font-size:36px}
 
-  .player-controls{position:sticky;bottom:20px;display:flex;gap:12px;align-items:center;padding:12px;background:rgba(255,255,255,0.95);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.08)}
-  .player-controls audio{width:100%}
+    /* bubble */
+    .bubble {position:fixed; z-index:90; background:linear-gradient(90deg,#fff,#ffeef8); padding:10px 14px; border-radius:14px; box-shadow:0 14px 36px rgba(0,0,0,0.12); font-size:16px}
 
-  /* cat GIFs & hearts */
-  .floating-gif, .floating-heart{position:fixed;pointer-events:none;z-index:15;opacity:0.95}
-  /* pop message bubbles on scroll */
-  .bubble{
-    position:fixed;padding:10px 14px;background:linear-gradient(90deg,#fff,#ffe6f0);border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.12);font-size:16px;z-index:40;border:1px solid rgba(255,0,100,0.06)
-  }
-
-  /* responsive tweaks */
-  @media (max-width:900px){
-    .stage{grid-template-columns:1fr; gap:20px; padding:12px}
-    .envelope{width:88%;height:260px}
-    .right{align-items:center}
-    .msg-title{font-size:36px}
-    .msg-body{font-size:18px}
-  }
-</style>
+    @media (max-width:980px){
+      .layout{grid-template-columns:1fr; padding:18px}
+      .envelope{width:88%; height:320px}
+      .msg-title{font-size:34px}
+      .msg-body{font-size:18px}
+    }
+  </style>
 </head>
 <body>
 
-<div class="wrap">
+  <main class="stage">
+    <div class="layout">
 
-  <!-- sparkles layer -->
-  <div class="sparkle-bg" id="sparkles"></div>
-
-  <!-- Main stage (envelope + info) -->
-  <div class="stage" role="main">
-    <div class="cinema">
-      <div class="envelope-wrap" aria-hidden="false">
-        <div class="envelope" id="envelope" aria-label="Click to open the love letter">
-          <div class="flap" id="flap"></div>
-          <div class="body">Tap here to open 💌</div>
+      <!-- cinematic left -->
+      <section class="cinema" aria-label="Envelope stage">
+        <div class="envelope-wrap">
+          <div class="envelope center" id="envelope">
+            <div class="flap" id="flap"></div>
+            <div class="body">Tap to open — a small note for Anmol 💌</div>
+            <div class="open-hint">Tap to open</div>
+          </div>
         </div>
-      </div>
-      <div style="position:absolute;left:18px;bottom:16px;font-size:13px;color:rgba(0,0,0,0.35)">Tap envelope → see message → tap X to go to songs</div>
-    </div>
+      </section>
 
-    <div class="right">
-      <div class="title">For Anmol — A Little Love</div>
-      <div class="subtitle">Click the big envelope to open a short message. Then explore songs, cute cat GIFs and pop-up love notes as you scroll. Record the screen to make a reel ❤️</div>
-      <div style="height:10px"></div>
-      <div style="display:flex;gap:10px">
-        <button id="openDemo" style="background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:12px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,0.12)">Open Envelope</button>
-        <button id="skipToSongs" style="background:#fff;border:1px solid rgba(0,0,0,0.06);padding:10px 14px;border-radius:12px;cursor:pointer">Go to Songs</button>
+      <!-- right column -->
+      <aside class="right">
+        <div>
+          <div class="title">For Anmol — a little cinematic love</div>
+          <div class="subtitle">Open the envelope, read the message, then tap ✕ to go to songs & cute surprises. Perfect for screen-recording reels.</div>
+        </div>
+        <div style="display:flex;gap:12px">
+          <button id="btnOpen" style="background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:10px;cursor:pointer">Open</button>
+          <button id="btnSkip" style="background:#fff;border:1px solid rgba(0,0,0,0.06);padding:10px 14px;border-radius:10px;cursor:pointer">Skip → Songs</button>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Overlay message -->
+  <div class="overlay center" id="overlay">
+    <div class="msg-card" role="dialog" aria-modal="true" id="msgCard">
+      <button class="close-x" id="closeX">✕</button>
+      <div class="msg-title">My dearest Anmol ❤️</div>
+      <div class="msg-body">
+        <p style="font-size:28px;margin-bottom:12px">Meri pyari Anmol,</p>
+        <p>Jab se tum mere zindagi mein aayi ho, har lamha ek nayi roshni se bhar gaya hai. Tum meri har subah ki khushi aur raaton ka sukoon ho. Main har pal tumhari muskurahat dekhna chahta hoon — tum he meri har ek dua ka jawab ho.</p>
+        <div class="msg-sub">Tap ✕ to explore romantic songs and cute cat surprises — record as you go for a reel. 🎥</div>
       </div>
     </div>
   </div>
 
-  <!-- Message overlay -->
-  <div class="message-screen" id="messageScreen" aria-hidden="true">
-    <div class="message-card" role="dialog" aria-modal="true">
-      <button class="btn-close" id="closeBtn" aria-label="Close message">✕</button>
-      <div style="text-align:center">
-        <div class="msg-title">My dearest Anmol ❤️</div>
-        <div class="msg-body">
-          <p style="margin-bottom:14px; font-size:28px">Meri pyari Anmol,</p>
-          <p>Jab se tum meri zindagi mein aayi ho, har lamha ek nayi roshni se bhar gaya hai. Tumhari muskurahat mere din ka sabse khubsurat hissa hai. Main har pal tumse bas ek hi cheez chahta hoon — tumhari khushi. </p>
-          <p class="msg-sub">Tap the ✕ to see some romantic songs and cute surprises for you. Record this moment if you want to make it into a reel 😉</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Songs & interactive area -->
-  <div class="songs-screen" id="songsScreen" aria-hidden="true">
+  <!-- Songs screen -->
+  <section class="songs-screen" id="songsScreen" aria-hidden="true">
     <div class="songs-inner">
       <div class="songs-header">
-        <div class="songs-title">🎧 Curated Romantic Songs</div>
-        <div style="font-size:14px;color:rgba(0,0,0,0.6)">Tap any track to play — browser requires a user tap to allow sound</div>
+        <div class="songs-title">🎧 Curated Romantic Playlist</div>
+        <div style="font-size:13px;color:rgba(0,0,0,0.65)">Tap any tile to play. If a track doesn't load replace URL with your hosted mp3.</div>
       </div>
 
       <div class="playlist" id="playlist"></div>
 
-      <!-- player controls -->
-      <div class="player-controls" id="playerControls" style="display:none">
-        <div style="flex:1">
-          <audio id="player" controls preload="none" style="width:100%"></audio>
-        </div>
+      <div class="player-sticky" id="playerSticky" style="display:none">
+        <audio id="player" controls preload="none" style="width:100%"></audio>
       </div>
     </div>
-  </div>
+  </section>
 
-</div>
+  <script>
+  // Wait for GSAP loaded (defer scripts included); small guard
+  function ready(fn){
+    if(document.readyState!='loading') fn();
+    else document.addEventListener('DOMContentLoaded', fn);
+  }
 
-<script>
-/* ------------- Utility: create sparkles ------------- */
-const sparkles = document.getElementById('sparkles');
-for(let i=0;i<24;i++){
-  const s = document.createElement('div');
-  s.className='sparkle';
-  s.style.left = (Math.random()*100) + '%';
-  s.style.top = (Math.random()*100) + '%';
-  s.style.animationDuration = (6 + Math.random()*6) + 's';
-  s.style.animationDelay = (Math.random()*4) + 's';
-  sparkles.appendChild(s);
-}
+  ready(()=> {
+    const flap = document.getElementById('flap');
+    const envelope = document.getElementById('envelope');
+    const overlay = document.getElementById('overlay');
+    const btnOpen = document.getElementById('btnOpen');
+    const btnSkip = document.getElementById('btnSkip');
+    const closeX = document.getElementById('closeX');
+    const songsScreen = document.getElementById('songsScreen');
+    const playlist = document.getElementById('playlist');
+    const player = document.getElementById('player');
+    const playerSticky = document.getElementById('playerSticky');
 
-/* ------------- Envelope interactions ------------- */
-const envelope = document.getElementById('envelope');
-const flap = document.getElementById('flap');
-const messageScreen = document.getElementById('messageScreen');
-const closeBtn = document.getElementById('closeBtn');
-const openDemo = document.getElementById('openDemo');
-const skipToSongs = document.getElementById('skipToSongs');
-const songsScreen = document.getElementById('songsScreen');
-const playlistEl = document.getElementById('playlist');
-const player = document.getElementById('player');
-const playerControls = document.getElementById('playerControls');
+    // cinematic entrance: subtle pop
+    gsap.from('.envelope', {scale:0.96, y:20, duration:0.9, ease:"power3.out"});
 
-function openEnvelope(){
-  // animate flap open
-  flap.style.transform = 'rotateX(180deg)';
-  envelope.style.transition = 'transform .6s';
-  envelope.style.transform = 'scale(.9) translateY(-8px)';
-  // small zoom-in for cinematic effect
-  setTimeout(()=>{
-    envelope.style.display='none';
-    messageScreen.style.display='flex';
-    messageScreen.setAttribute('aria-hidden','false');
-    // center message card animation handled by CSS
-  },600);
-}
+    // Envelope click -> open with 3D flap animation and "cinematic zoom"
+    function openEnvelope(){
+      // 3d flip flap
+      gsap.to(flap, {rotationX:180, transformOrigin:'top center', duration:0.8, ease:'back.out(1.2)'});
+      // slight envelope lift & scale to feel cinematic
+      gsap.to(envelope, {scale:0.92, duration:0.6, ease:'power2.out'});
+      // after open, show message overlay with zoom-in
+      setTimeout(()=> {
+        overlay.style.display='flex';
+        gsap.from('#msgCard', {scale:0.96, y:18, opacity:0, duration:0.6, ease:'power3.out'});
+      }, 600);
+    }
 
-openDemo.addEventListener('click', openEnvelope);
-envelope.addEventListener('click', openEnvelope);
+    envelope.addEventListener('click', openEnvelope);
+    btnOpen.addEventListener('click', openEnvelope);
 
-// When user closes message: go to songs
-closeBtn.addEventListener('click', ()=>{
-  messageScreen.style.display='none';
-  messageScreen.setAttribute('aria-hidden','true');
-  songsScreen.style.display='block';
-  songsScreen.setAttribute('aria-hidden','false');
-  // create floating hearts and cat GIFs
-  spawnFloating();
-  // enable popups on scroll
-  enableScrollPopups();
-});
-
-/* Skip button */
-skipToSongs.addEventListener('click', ()=>{
-  envelope.style.display='none';
-  messageScreen.style.display='none';
-  songsScreen.style.display='block';
-  spawnFloating();
-  enableScrollPopups();
-});
-
-/* ------------- Songs list (playable) ------------- */
-/* Note: For real songs, replace src with direct mp3 URLs or host your own files.
-         The sample mp3s below are public examples and usually playable. */
-const tracks = [
-  {name:'Tum Hi Ho — (Sample)', src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'},
-  {name:'Raabta — (Sample)', src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'},
-  {name:'Tera Ban Jaunga — (Sample)', src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'},
-  {name:'Janam Janam — (Sample)', src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3'},
-  {name:'Shayad — (Sample)', src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3'}
-];
-
-tracks.forEach((t, idx) => {
-  const tr = document.createElement('div');
-  tr.className='track';
-  tr.setAttribute('role','button');
-  tr.innerHTML = `<div class="name">${t.name}</div><div class="meta">Tap to play</div>`;
-  tr.addEventListener('click', ()=>{
-    // user gesture: set source and play
-    player.src = t.src;
-    player.play().catch(err=>{
-      // browsers block autoplay on some devices; user already tapped so should be ok
-      console.warn('playback prevented:',err);
+    // Close message -> transition to songs screen
+    closeX.addEventListener('click', ()=>{
+      // animate overlay out
+      gsap.to('#msgCard', {y:-20, opacity:0, scale:0.98, duration:0.45, ease:'power2.in', onComplete: ()=> {
+        overlay.style.display='none';
+        // hide envelope too
+        gsap.to('.envelope', {opacity:0, y:-20, duration:0.6});
+        // show songs screen (slide up)
+        songsScreen.style.display='block';
+        gsap.fromTo(songsScreen, {y:40, opacity:0}, {y:0, opacity:1, duration:0.6, ease:'power3.out'});
+        spawnFloating(); enableScrollBubbles(); // visual goodies
+      }});
     });
-    playerControls.style.display='flex';
-    // subtle highlight animation
-    tr.style.outline = '2px solid rgba(230,57,70,0.12)';
-    setTimeout(()=> tr.style.outline = 'none',1200);
+
+    // Skip to songs directly
+    btnSkip.addEventListener('click', ()=>{
+      overlay.style.display='none';
+      gsap.to('.envelope', {opacity:0, y:-20, duration:0.4});
+      songsScreen.style.display='block';
+      gsap.fromTo(songsScreen, {y:40, opacity:0}, {y:0, opacity:1, duration:0.6, ease:'power3.out'});
+      spawnFloating(); enableScrollBubbles();
+    });
+
+    /* ---------- Playlist (playable) ---------- */
+    // NOTE: replace these sample mp3 urls with your own hosted mp3s if you face playback issues
+    const tracks = [
+      { name: 'Tum Hi Ho — Sample', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+      { name: 'Raabta — Sample', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
+      { name: 'Tera Ban Jaunga — Sample', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' },
+      { name: 'Janam Janam — Sample', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3' },
+      { name: 'Shayad — Sample', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3' }
+    ];
+
+    tracks.forEach((t, i) => {
+      const el = document.createElement('div');
+      el.className = 'track';
+      el.innerHTML = `<div class="name">${t.name}</div><div class="meta">Tap to play</div>`;
+      el.addEventListener('click', () => {
+        player.src = t.src;
+        player.play().catch(err=> {
+          // If browser blocked play, try to resume after user gesture
+          console.warn('playback prevented', err);
+        });
+        playerSticky.style.display = 'flex';
+        // small highlight
+        gsap.fromTo(el, {scale:0.995}, {scale:1.02, duration:0.18, yoyo:true, repeat:1});
+      });
+      playlist.appendChild(el);
+    });
+
+    /* ---------- Floating cats & hearts ---------- */
+    const catGifs = [
+      'https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif',
+      'https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif',
+      'https://media.giphy.com/media/13borq7Zo2kulO/giphy.gif',
+      'https://media.giphy.com/media/OmK8lulOMQ9XO/giphy.gif',
+      'https://media.giphy.com/media/3oriO7A7bt1wsEP4cw/giphy.gif'
+    ];
+
+    function spawnFloating(){
+      for(let i=0;i<10;i++){
+        // cat
+        const cat = document.createElement('img');
+        cat.src = catGifs[i % catGifs.length];
+        cat.className = 'floating cat';
+        const startLeft = 6 + Math.random()*84;
+        cat.style.left = startLeft + '%';
+        cat.style.bottom = (-40 - Math.random()*30) + 'px';
+        cat.style.opacity = '0';
+        document.body.appendChild(cat);
+        // animate upward & fade in/out
+        gsap.to(cat, {delay: 0.2 + Math.random()*1.2, opacity:1, y:- (window.innerHeight + 200), duration: 9 + Math.random()*6, ease:'power1.out', onComplete: ()=> cat.remove()});
+      }
+      // hearts
+      const hearts = ['❤️','💖','💘','💞','💝'];
+      for(let i=0;i<14;i++){
+        const h = document.createElement('div');
+        h.className = 'floating heart';
+        h.innerText = hearts[i%hearts.length];
+        const left = 6 + Math.random()*84;
+        h.style.left = left + '%';
+        h.style.bottom = -20 + 'px';
+        h.style.opacity = 0;
+        document.body.appendChild(h);
+        gsap.to(h, {delay:0.2 + Math.random()*1.8, opacity:1, y: - (window.innerHeight + 160), duration:7 + Math.random()*6, ease:'power1.out', onComplete: ()=> h.remove()});
+      }
+    }
+
+    /* ---------- Scroll-triggered bubbles ---------- */
+    const popMsgs = [
+      "Tum meri duniya ho 💖",
+      "Har pal tumhare saath ka ehsaas 🌸",
+      "Meri duaon ka sabse khoobsurat jawab 😍",
+      "Tum meri khushi ka raaz ✨",
+      "Bas tum aur main — hamesha 💞"
+    ];
+    let lastTime=0;
+    function enableScrollBubbles(){
+      window.addEventListener('scroll', ()=> {
+        const now = Date.now();
+        if(now - lastTime < 900) return;
+        lastTime = now;
+        spawnBubble();
+      });
+    }
+    function spawnBubble(){
+      const b = document.createElement('div');
+      b.className = 'bubble';
+      b.innerText = popMsgs[Math.floor(Math.random()*popMsgs.length)];
+      const left = 20 + Math.random()*60;
+      const top = window.innerHeight - (30 + Math.random()*120);
+      b.style.left = left + 'px';
+      b.style.top = top + 'px';
+      document.body.appendChild(b);
+      gsap.fromTo(b, {opacity:0, y:10}, {opacity:1, y:0, duration:0.35});
+      gsap.to(b, {opacity:0, y:-20, delay:1.6, duration:0.6, onComplete: ()=> b.remove()});
+    }
+
+    /* ---------- Accessibility / tips ---------- */
+    // Show a brief tip for mobile users to record in full screen
+    if(window.innerWidth < 900){
+      setTimeout(()=> {
+        const tip = document.createElement('div');
+        tip.className = 'bubble';
+        tip.innerText = 'Tip: Open full-screen & start screen-recording for best reel results 📱';
+        tip.style.left = '12px';
+        tip.style.top = (window.innerHeight - 90) + 'px';
+        document.body.appendChild(tip);
+        gsap.to(tip, {opacity:1, duration:0.3});
+        setTimeout(()=> gsap.to(tip, {opacity:0, scale:0.96, duration:0.4, onComplete: ()=> tip.remove()}), 4200);
+      }, 700);
+    }
+
+    /* ---------- Helpful note for GitHub deployment ---------- */
+    // If a track doesn't play on GitHub Pages due to remote host restrictions:
+    // 1) Upload mp3s into the repo (e.g. /assets/audio/your-song.mp3) and use relative URLs: '/assets/audio/your-song.mp3'
+    // 2) Or host them on a reliable CDN with CORS enabled and replace the track.src values above.
   });
-  playlistEl.appendChild(tr);
-});
-
-/* ------------- Floating cat GIFs & hearts ------------- */
-const catGifs = [
-  'https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif',
-  'https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif',
-  'https://media.giphy.com/media/13borq7Zo2kulO/giphy.gif',
-  'https://media.giphy.com/media/OmK8lulOMQ9XO/giphy.gif',
-  'https://media.giphy.com/media/3oriO7A7bt1wsEP4cw/giphy.gif'
-];
-
-function spawnFloating(){
-  // add a few floating cats and hearts around the page
-  for(let i=0;i<12;i++){
-    const img = document.createElement('img');
-    img.className='floating-gif';
-    img.src = catGifs[i % catGifs.length];
-    const size = 70 + Math.round(Math.random()*60);
-    img.style.width = size + 'px';
-    img.style.left = (10 + Math.random()*80) + '%';
-    img.style.top = (60 + Math.random()*30) + 'vh';
-    img.style.transform = `translateY(${30 + Math.random()*20}vh)`;
-    img.style.opacity = 0;
-    img.style.transition = 'opacity .6s, transform 10s linear';
-    document.body.appendChild(img);
-    // fade in and float upward slowly
-    setTimeout(()=>{ img.style.opacity = 1; img.style.transform = `translateY(-40vh)` }, 300 + Math.random()*1000);
-    // remove after some time
-    setTimeout(()=> img.remove(), 14000 + Math.random()*8000);
-  }
-
-  // hearts
-  const hearts = ['❤️','💖','💘','💞'];
-  for(let i=0;i<16;i++){
-    const el = document.createElement('div');
-    el.className = 'floating-heart';
-    el.innerText = hearts[i % hearts.length];
-    const startLeft = (6 + Math.random()*88) + '%';
-    el.style.left = startLeft;
-    el.style.top = (80 + Math.random()*10) + 'vh';
-    el.style.fontSize = (28 + Math.random()*36) + 'px';
-    el.style.opacity = 0;
-    el.style.transition = `opacity .4s, transform ${6 + Math.random()*8}s linear`;
-    document.body.appendChild(el);
-    setTimeout(()=>{ el.style.opacity = 1; el.style.transform = `translateY(-110vh)`; }, 200 + Math.random()*1400);
-    setTimeout(()=> el.remove(), 9000 + Math.random()*10000);
-  }
-}
-
-/* ------------- Scroll Pop-ups ------------- */
-const popupMsgs = [
-  "Tum meri duniya ho 💖",
-  "Har pal tumhare saath ka ehsaas 🌸",
-  "Meri duaon ka sabse khoobsurat jawab 😍",
-  "Tum meri khushi ka raaz ✨",
-  "Mera dil sirf tumhara ❤️",
-  "Bas tum aur main — hamesha 💞"
-];
-
-let lastPopup = 0;
-function enableScrollPopups(){
-  window.addEventListener('scroll', ()=>{
-    const now = Date.now();
-    // throttle
-    if(now - lastPopup < 1200) return;
-    lastPopup = now;
-    const msg = popupMsgs[Math.floor(Math.random()*popupMsgs.length)];
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble';
-    bubble.innerText = msg;
-    // random pos near bottom of viewport
-    const left = 8 + Math.random()*70;
-    const top = window.innerHeight - 120 + Math.random()*60;
-    bubble.style.left = left + 'px';
-    bubble.style.top = top + 'px';
-    document.body.appendChild(bubble);
-    // fade out & remove
-    bubble.animate([{opacity:1, transform:'translateY(0px)'},{opacity:0, transform:'translateY(-30px)'}], {duration:2200});
-    setTimeout(()=> bubble.remove(),2400);
-  });
-}
-
-/* ------------- Helpful hint: mobile recording guide ------------- */
-(function showMobileTip(){
-  // For small screens show a quick tip bubble near bottom
-  if(window.innerWidth < 800){
-    const tip = document.createElement('div');
-    tip.className = 'bubble';
-    tip.style.left = '8px';
-    tip.style.top = (window.innerHeight - 80) + 'px';
-    tip.innerText = "Tip: Use full-screen + screen-record for reels 📱";
-    document.body.appendChild(tip);
-    setTimeout(()=> tip.remove(), 4500);
-  }
-})();
-
-/* ------------- Accessibility & fallback notes ------------- */
-/* If some external audio hosts are blocked, replace 'tracks[].src' with your own uploaded mp3 file URLs (hosted on your server or a reliable CDN).
-   For perfect reels, export original songs or short instrumental loops and update the src fields. */
-
-</script>
+  </script>
 </body>
 </html>
