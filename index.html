@@ -6,149 +6,146 @@
 <title>Anmol ❤️ Special Love Page</title>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{
-    font-family:'Dancing Script', cursive;
-    overflow-x:hidden;
-    background: linear-gradient(to right, #ffdde1, #ee9ca7);
-    min-height:100vh;
-    color:#3b0b2e;
-  }
-  /* ==================== Envelope Landing ==================== */
-  .envelope-container{
-    position:relative;
-    width:250px;
-    height:180px;
-    margin:150px auto;
-    cursor:pointer;
-    transition: transform 0.3s;
-  }
-  .envelope-container:hover{
-    transform: scale(1.1) rotate(-2deg);
-  }
-  .envelope{
-    width:100%;
-    height:100%;
-    background:#e63946;
-    border-radius:15px;
-    position:relative;
-    overflow:hidden;
-  }
-  .flap{
-    position:absolute;
-    top:0; left:0;
-    width:100%; height:50%;
-    background:#d62828;
-    clip-path: polygon(0 0, 50% 100%, 100% 0);
-    transform-origin: top;
-    transition: transform 0.5s;
-  }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Dancing Script', cursive;
+  overflow-x:hidden;
+  background: linear-gradient(to right, #ffdde1, #ee9ca7);
+  min-height:100vh;
+  color:#3b0b2e;
+}
 
-  /* ==================== Love Message ==================== */
-  .message-screen{
-    display:none;
-    text-align:center;
-    padding:3rem;
-    position:relative;
-    min-height:100vh;
-    overflow:hidden;
-  }
-  .message-screen h1{
-    font-size:3rem;
-    margin-bottom:2rem;
-  }
-  .message-screen p{
-    font-size:1.8rem;
-    margin-bottom:1.5rem;
-  }
-  .close-btn{
-    position:absolute;
-    top:20px; right:20px;
-    font-size:2.5rem;
-    cursor:pointer;
-    background: #e63946;
-    color:#fff;
-    border:none;
-    border-radius:50%;
-    width:60px;
-    height:60px;
-  }
+/* Envelope Landing */
+.envelope-container{
+  position:relative;
+  width:300px;
+  height:220px;
+  margin:150px auto;
+  cursor:pointer;
+  transition: transform 0.3s;
+}
+.envelope-container:hover{transform: scale(1.1) rotate(-2deg);}
+.envelope{
+  width:100%;
+  height:100%;
+  background:#e63946;
+  border-radius:15px;
+  position:relative;
+  overflow:hidden;
+}
+.flap{
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:50%;
+  background:#d62828;
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+  transform-origin: top;
+  transition: transform 0.5s;
+}
 
-  /* ==================== Songs Section ==================== */
-  .songs-screen{
-    display:none;
-    padding:2rem;
-    min-height:100vh;
-    position:relative;
-  }
-  .song-list{
-    display:flex;
-    flex-direction:column;
-    gap:1.5rem;
-  }
-  .song-item{
-    padding:1rem;
-    background: #ffe6f0;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-    cursor:pointer;
-    transition: transform 0.3s;
-    font-size:1.5rem;
-  }
-  .song-item:hover{
-    transform: scale(1.05);
-  }
-  .popup-msg{
-    position:absolute;
-    background: #ff9ff3;
-    padding:0.8rem 1.2rem;
-    border-radius:10px;
-    font-size:1.2rem;
-    display:none;
-    animation: fadeinout 2s forwards;
-  }
-  @keyframes fadeinout{
-    0%{opacity:0; transform:translateY(20px);}
-    20%{opacity:1; transform:translateY(0);}
-    80%{opacity:1; transform:translateY(0);}
-    100%{opacity:0; transform:translateY(-20px);}
-  }
+/* Love Message */
+.message-screen{
+  display:none;
+  text-align:center;
+  padding:3rem;
+  position:relative;
+  min-height:100vh;
+  overflow:hidden;
+}
+.message-screen h1{
+  font-size:3rem;
+  margin-bottom:2rem;
+}
+.message-screen p{
+  font-size:1.8rem;
+  margin-bottom:1.5rem;
+}
+.close-btn{
+  position:absolute;
+  top:20px; right:20px;
+  font-size:2.5rem;
+  cursor:pointer;
+  background: #e63946;
+  color:#fff;
+  border:none;
+  border-radius:50%;
+  width:60px;
+  height:60px;
+}
 
-  /* ==================== Heart + GIFs ==================== */
-  .heart{
-    position:absolute;
-    font-size:50px;
-    animation: floatHeart linear infinite;
-    pointer-events:none;
-  }
-  @keyframes floatHeart{
-    0%{transform: translateY(100vh) scale(0);}
-    50%{transform: translateY(50vh) scale(1);}
-    100%{transform: translateY(-10vh) scale(0);}
-  }
-  .gif{
-    position:absolute;
-    width:70px;
-    pointer-events:none;
-    animation: floatUp linear infinite;
-  }
-  @keyframes floatUp{
-    0%{transform: translateY(100vh) scale(0);}
-    50%{transform: translateY(50vh) scale(1);}
-    100%{transform: translateY(-10vh) scale(0);}
-  }
+/* Songs Section */
+.songs-screen{
+  display:none;
+  padding:2rem;
+  min-height:100vh;
+  position:relative;
+}
+.song-list{
+  display:flex;
+  flex-direction:column;
+  gap:1.5rem;
+}
+.song-item{
+  padding:1rem;
+  background: #ffe6f0;
+  border-radius:15px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+  cursor:pointer;
+  transition: transform 0.3s;
+  font-size:1.5rem;
+}
+.song-item:hover{transform: scale(1.05);}
+.popup-msg{
+  position:absolute;
+  background: #ff9ff3;
+  padding:0.8rem 1.2rem;
+  border-radius:10px;
+  font-size:1.2rem;
+  display:none;
+  animation: fadeinout 2s forwards;
+}
+@keyframes fadeinout{
+  0%{opacity:0; transform:translateY(20px);}
+  20%{opacity:1; transform:translateY(0);}
+  80%{opacity:1; transform:translateY(0);}
+  100%{opacity:0; transform:translateY(-20px);}
+}
+
+/* Heart + Cat GIFs */
+.heart{
+  position:absolute;
+  font-size:50px;
+  animation: floatHeart linear infinite;
+  pointer-events:none;
+}
+@keyframes floatHeart{
+  0%{transform: translateY(100vh) scale(0);}
+  50%{transform: translateY(50vh) scale(1);}
+  100%{transform: translateY(-10vh) scale(0);}
+}
+.gif{
+  position:absolute;
+  width:70px;
+  pointer-events:none;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp{
+  0%{transform: translateY(100vh) scale(0);}
+  50%{transform: translateY(50vh) scale(1);}
+  100%{transform: translateY(-10vh) scale(0);}
+}
 </style>
 </head>
 <body>
 
-<!-- ==================== Envelope Landing ==================== -->
+<!-- Envelope -->
 <div class="envelope-container" id="envelope">
   <div class="envelope">
     <div class="flap" id="flap"></div>
   </div>
 </div>
 
-<!-- ==================== Love Message ==================== -->
+<!-- Love Message -->
 <div class="message-screen" id="messageScreen">
   <button class="close-btn" id="closeMsg">X</button>
   <h1>For My Anmol ❤️</h1>
@@ -157,21 +154,15 @@
   <p>Tum meri duaon ka sach aur meri har choti khushi ka sabab ho. Main chahta hoon ki hamesha tumhari khushi mere saath ho, aur hamesha tumhara pyaar mere dil mein rahe.</p>
 </div>
 
-<!-- ==================== Songs Section ==================== -->
+<!-- Songs Section -->
 <div class="songs-screen" id="songsScreen">
   <h1>🎵 Hindi Romantic Songs for You</h1>
-  <div class="song-list" id="songList">
-    <div class="song-item" data-src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">Tum Hi Ho</div>
-    <div class="song-item" data-src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">Raabta</div>
-    <div class="song-item" data-src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">Tera Ban Jaunga</div>
-    <div class="song-item" data-src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3">Janam Janam</div>
-    <div class="song-item" data-src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3">Shayad</div>
-  </div>
+  <div class="song-list" id="songList"></div>
   <audio id="songPlayer" controls style="margin-top:20px;width:100%;border-radius:10px;"></audio>
 </div>
 
 <script>
-// ==================== Envelope Animation ====================
+// Envelope Animation
 const envelope = document.getElementById('envelope');
 const flap = document.getElementById('flap');
 const messageScreen = document.getElementById('messageScreen');
@@ -187,7 +178,7 @@ envelope.addEventListener('click',()=>{
   },500);
 });
 
-// ==================== Close Love Message ====================
+// Close Message
 closeMsg.addEventListener('click',()=>{
   messageScreen.style.display='none';
   songsScreen.style.display='block';
@@ -195,19 +186,28 @@ closeMsg.addEventListener('click',()=>{
   addScrollPopups();
 });
 
-// ==================== Play Songs on Click ====================
-const songItems = document.querySelectorAll('.song-item');
-songItems.forEach(item=>{
-  item.addEventListener('click',()=>{
-    const src = item.getAttribute('data-src');
-    songPlayer.src = src;
+// Songs Playable
+const songs = [
+  {name:"Tum Hi Ho", src:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
+  {name:"Raabta", src:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
+  {name:"Tera Ban Jaunga", src:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
+  {name:"Janam Janam", src:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"},
+  {name:"Shayad", src:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"}
+];
+const songListDiv = document.getElementById("songList");
+songs.forEach(song=>{
+  const div = document.createElement("div");
+  div.className="song-item";
+  div.innerText = song.name;
+  div.addEventListener("click", ()=>{
+    songPlayer.src = song.src;
     songPlayer.play();
   });
+  songListDiv.appendChild(div);
 });
 
-// ==================== Hearts & Cat GIFs ====================
+// Hearts + Cat GIFs
 function createHeartsAndGIFs(){
-  const songScreen = songsScreen;
   const heartEmojis = ['❤️','💖','💘','💞','💝'];
   for(let i=0;i<20;i++){
     const heart = document.createElement('div');
@@ -216,7 +216,7 @@ function createHeartsAndGIFs(){
     heart.style.left=Math.random()*90+'%';
     heart.style.animationDuration=(5+Math.random()*5)+'s';
     heart.style.animationDelay=(Math.random()*5)+'s';
-    songScreen.appendChild(heart);
+    songsScreen.appendChild(heart);
   }
   const gifUrls=[
     'https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif',
@@ -229,4 +229,32 @@ function createHeartsAndGIFs(){
     img.src=gifUrls[i%gifUrls.length];
     img.style.left=Math.random()*80+'%';
     img.style.animationDuration=(5+Math.random()*5)+'s';
-    img.style.animationDelay=(Math.random
+    img.style.animationDelay=(Math.random()*5)+'s';
+    songsScreen.appendChild(img);
+  }
+}
+
+// Scroll Popups
+function addScrollPopups(){
+  const messages=[
+    "Tum meri duniya ho 💖",
+    "Har pal tumhare saath ka ehsaas 🌸",
+    "Meri duaon ka sabse khoobsurat jawab 😍",
+    "Tum meri khushi ka raaz ✨",
+    "Mera dil sirf tumhara ❤️"
+  ];
+  window.addEventListener('scroll',()=>{
+    const randomMsg = messages[Math.floor(Math.random()*messages.length)];
+    const popup = document.createElement('div');
+    popup.className='popup-msg';
+    popup.style.left=Math.random()*70+'%';
+    popup.style.top=(window.scrollY + window.innerHeight - 100)+'px';
+    popup.innerText=randomMsg;
+    songsScreen.appendChild(popup);
+    popup.style.display='block';
+    setTimeout(()=>{popup.remove()},2000);
+  });
+}
+</script>
+</body>
+</html>
