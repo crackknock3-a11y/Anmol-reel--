@@ -212,3 +212,21 @@ function createHeartsAndGIFs(){
   for(let i=0;i<20;i++){
     const heart = document.createElement('div');
     heart.className='heart';
+    heart.innerText = heartEmojis[i%heartEmojis.length];
+    heart.style.left=Math.random()*90+'%';
+    heart.style.animationDuration=(5+Math.random()*5)+'s';
+    heart.style.animationDelay=(Math.random()*5)+'s';
+    songScreen.appendChild(heart);
+  }
+  const gifUrls=[
+    'https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif',
+    'https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif',
+    'https://media.giphy.com/media/13borq7Zo2kulO/giphy.gif'
+  ];
+  for(let i=0;i<15;i++){
+    const img = document.createElement('img');
+    img.className='gif';
+    img.src=gifUrls[i%gifUrls.length];
+    img.style.left=Math.random()*80+'%';
+    img.style.animationDuration=(5+Math.random()*5)+'s';
+    img.style.animationDelay=(Math.random
