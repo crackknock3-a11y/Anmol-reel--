@@ -1,260 +1,413 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anmol ❤️ Special Love Page</title>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Anmol — A Little Love</title>
+
+<!-- Dancing Script for romantic look -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700;600&display=swap" rel="stylesheet">
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-  font-family:'Dancing Script', cursive;
-  overflow-x:hidden;
-  background: linear-gradient(to right, #ffdde1, #ee9ca7);
-  min-height:100vh;
-  color:#3b0b2e;
-}
+  :root{
+    --accent:#e63946;
+    --soft:#ffddee;
+    --card-bg: rgba(255,255,255,0.96);
+    --text: #3b0b2e;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:'Dancing Script', cursive;background: linear-gradient(135deg,#ffefeF,#ffe2e9);color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  /* Container centers content */
+  .wrap{
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    position:relative;
+    overflow:hidden;
+  }
 
-/* Envelope Landing */
-.envelope-container{
-  position:relative;
-  width:300px;
-  height:220px;
-  margin:150px auto;
-  cursor:pointer;
-  transition: transform 0.3s;
-}
-.envelope-container:hover{transform: scale(1.1) rotate(-2deg);}
-.envelope{
-  width:100%;
-  height:100%;
-  background:#e63946;
-  border-radius:15px;
-  position:relative;
-  overflow:hidden;
-}
-.flap{
-  position:absolute;
-  top:0; left:0;
-  width:100%; height:50%;
-  background:#d62828;
-  clip-path: polygon(0 0, 50% 100%, 100% 0);
-  transform-origin: top;
-  transition: transform 0.5s;
-}
+  /* subtle animated background particles (CSS-only "sparkles") */
+  .sparkle-bg{
+    position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+  }
+  .sparkle{
+    position:absolute; width:6px; height:6px; background: #fff; border-radius:50%; opacity:0.9; box-shadow:0 0 10px rgba(255,255,255,0.6);
+    animation: sparkleFloat linear infinite;
+  }
+  @keyframes sparkleFloat{
+    from{transform:translateY(120vh) scale(0);opacity:0}
+    20%{opacity:1}
+    100%{transform:translateY(-40vh) scale(0.6);opacity:0}
+  }
 
-/* Love Message */
-.message-screen{
-  display:none;
-  text-align:center;
-  padding:3rem;
-  position:relative;
-  min-height:100vh;
-  overflow:hidden;
-}
-.message-screen h1{
-  font-size:3rem;
-  margin-bottom:2rem;
-}
-.message-screen p{
-  font-size:1.8rem;
-  margin-bottom:1.5rem;
-}
-.close-btn{
-  position:absolute;
-  top:20px; right:20px;
-  font-size:2.5rem;
-  cursor:pointer;
-  background: #e63946;
-  color:#fff;
-  border:none;
-  border-radius:50%;
-  width:60px;
-  height:60px;
-}
+  /* Envelope landing block */
+  .stage{
+    z-index:5;
+    width:100%;
+    max-width:920px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns: 1fr 480px;
+    gap:24px;
+    align-items:center;
+    padding:30px;
+  }
 
-/* Songs Section */
-.songs-screen{
-  display:none;
-  padding:2rem;
-  min-height:100vh;
-  position:relative;
-}
-.song-list{
-  display:flex;
-  flex-direction:column;
-  gap:1.5rem;
-}
-.song-item{
-  padding:1rem;
-  background: #ffe6f0;
-  border-radius:15px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.2);
-  cursor:pointer;
-  transition: transform 0.3s;
-  font-size:1.5rem;
-}
-.song-item:hover{transform: scale(1.05);}
-.popup-msg{
-  position:absolute;
-  background: #ff9ff3;
-  padding:0.8rem 1.2rem;
-  border-radius:10px;
-  font-size:1.2rem;
-  display:none;
-  animation: fadeinout 2s forwards;
-}
-@keyframes fadeinout{
-  0%{opacity:0; transform:translateY(20px);}
-  20%{opacity:1; transform:translateY(0);}
-  80%{opacity:1; transform:translateY(0);}
-  100%{opacity:0; transform:translateY(-20px);}
-}
+  /* Left cinematic card area (for video-like composition) */
+  .cinema{
+    background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,250,250,0.95));
+    border-radius:22px;
+    padding:28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    position:relative;
+    overflow:hidden;
+    min-height:420px;
+  }
 
-/* Heart + Cat GIFs */
-.heart{
-  position:absolute;
-  font-size:50px;
-  animation: floatHeart linear infinite;
-  pointer-events:none;
-}
-@keyframes floatHeart{
-  0%{transform: translateY(100vh) scale(0);}
-  50%{transform: translateY(50vh) scale(1);}
-  100%{transform: translateY(-10vh) scale(0);}
-}
-.gif{
-  position:absolute;
-  width:70px;
-  pointer-events:none;
-  animation: floatUp linear infinite;
-}
-@keyframes floatUp{
-  0%{transform: translateY(100vh) scale(0);}
-  50%{transform: translateY(50vh) scale(1);}
-  100%{transform: translateY(-10vh) scale(0);}
-}
+  /* Big envelope */
+  .envelope-wrap{
+    display:flex;align-items:center;justify-content:center;height:100%;
+  }
+  .envelope{
+    width:420px;height:300px;border-radius:18px;background:linear-gradient(180deg,var(--accent),#c6282e);position:relative;box-shadow:0 18px 40px rgba(0,0,0,0.25);cursor:pointer;transform-origin:center;transition:transform .25s ease;
+  }
+  .envelope:hover{transform:translateY(-6px) rotate(-1deg) scale(1.02)}
+  .envelope .flap{
+    position:absolute;left:0;top:0;width:100%;height:52%;background:linear-gradient(180deg,#ff6b95,#c6282e);clip-path:polygon(0 0, 50% 100%, 100% 0);transform-origin:top;transition:transform .6s cubic-bezier(.2,.8,.2,1);
+  }
+  .envelope .body{
+    position:absolute;left:6%;right:6%;bottom:8%;top:44%;background:linear-gradient(#ffdff0,#ffeef4);border-radius:8px;padding:18px;display:flex;align-items:center;justify-content:center;color:var(--text);font-size:20px;
+    box-shadow: inset 0 -6px 18px rgba(0,0,0,0.06);
+  }
+  /* small "open" hint */
+  .hint{
+    position:absolute; bottom:12px; left:50%; transform:translateX(-50%); color:#fff; font-size:14px; opacity:0.95;
+  }
+
+  /* Right column: preview / instructions */
+  .right{
+    display:flex;flex-direction:column;gap:14px;align-items:flex-start;justify-content:center;
+  }
+  .title{
+    font-size:34px;color:var(--text);margin-bottom:6px;
+  }
+  .subtitle{font-size:16px; opacity:0.85; max-width:360px}
+
+  /* Message Screen (full width overlay inside wrap) */
+  .message-screen{
+    position:absolute;inset:0;z-index:30;display:none;align-items:center;justify-content:center;padding:30px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));
+  }
+  .message-card{
+    width:92%;max-width:860px;background:var(--card-bg);border-radius:20px;padding:36px;box-shadow:0 30px 80px rgba(0,0,0,0.35);position:relative;transform-origin:center;
+    animation: cardIn .6s cubic-bezier(.2,.9,.2,1);
+  }
+  @keyframes cardIn { from{transform:scale(.95) translateY(10px);opacity:0} to{transform:scale(1) translateY(0);opacity:1} }
+
+  .msg-title{font-size:46px;margin:6px 0 12px}
+  .msg-body{font-size:22px;line-height:1.45;color:var(--text);max-width:760px;margin:0 auto;text-align:center}
+  .msg-sub{font-size:20px;margin-top:18px;text-align:center}
+
+  .btn-close{
+    position:absolute;top:18px;right:18px;width:56px;height:56px;border-radius:50%;border:none;background:var(--accent);color:#fff;font-size:22px;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,0.2)
+  }
+
+  /* Songs screen */
+  .songs-screen{
+    position:absolute;inset:0;z-index:20;padding:28px;display:none;overflow:auto;background:linear-gradient(180deg,#fff7fb,#fff1f6);
+  }
+  .songs-inner{max-width:1100px;margin:20px auto;display:flex;gap:24px;flex-direction:column}
+  .songs-header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .songs-title{font-size:30px}
+  .playlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:18px}
+  .track{
+    background:#fff;border-radius:12px;padding:14px;border:1px solid rgba(0,0,0,0.04);box-shadow:0 10px 30px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:10px;cursor:pointer;
+  }
+  .track:hover{transform:translateY(-6px);transition:transform .25s}
+  .track .name{font-size:20px}
+  .track .meta{font-size:13px;opacity:0.75}
+
+  .player-controls{position:sticky;bottom:20px;display:flex;gap:12px;align-items:center;padding:12px;background:rgba(255,255,255,0.95);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.08)}
+  .player-controls audio{width:100%}
+
+  /* cat GIFs & hearts */
+  .floating-gif, .floating-heart{position:fixed;pointer-events:none;z-index:15;opacity:0.95}
+  /* pop message bubbles on scroll */
+  .bubble{
+    position:fixed;padding:10px 14px;background:linear-gradient(90deg,#fff,#ffe6f0);border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.12);font-size:16px;z-index:40;border:1px solid rgba(255,0,100,0.06)
+  }
+
+  /* responsive tweaks */
+  @media (max-width:900px){
+    .stage{grid-template-columns:1fr; gap:20px; padding:12px}
+    .envelope{width:88%;height:260px}
+    .right{align-items:center}
+    .msg-title{font-size:36px}
+    .msg-body{font-size:18px}
+  }
 </style>
 </head>
 <body>
 
-<!-- Envelope -->
-<div class="envelope-container" id="envelope">
-  <div class="envelope">
-    <div class="flap" id="flap"></div>
+<div class="wrap">
+
+  <!-- sparkles layer -->
+  <div class="sparkle-bg" id="sparkles"></div>
+
+  <!-- Main stage (envelope + info) -->
+  <div class="stage" role="main">
+    <div class="cinema">
+      <div class="envelope-wrap" aria-hidden="false">
+        <div class="envelope" id="envelope" aria-label="Click to open the love letter">
+          <div class="flap" id="flap"></div>
+          <div class="body">Tap here to open 💌</div>
+        </div>
+      </div>
+      <div style="position:absolute;left:18px;bottom:16px;font-size:13px;color:rgba(0,0,0,0.35)">Tap envelope → see message → tap X to go to songs</div>
+    </div>
+
+    <div class="right">
+      <div class="title">For Anmol — A Little Love</div>
+      <div class="subtitle">Click the big envelope to open a short message. Then explore songs, cute cat GIFs and pop-up love notes as you scroll. Record the screen to make a reel ❤️</div>
+      <div style="height:10px"></div>
+      <div style="display:flex;gap:10px">
+        <button id="openDemo" style="background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:12px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,0.12)">Open Envelope</button>
+        <button id="skipToSongs" style="background:#fff;border:1px solid rgba(0,0,0,0.06);padding:10px 14px;border-radius:12px;cursor:pointer">Go to Songs</button>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- Love Message -->
-<div class="message-screen" id="messageScreen">
-  <button class="close-btn" id="closeMsg">X</button>
-  <h1>For My Anmol ❤️</h1>
-  <p>Meri pyari Anmol,</p>
-  <p>Tum meri zindagi ka sabse khubsurat ehsaas ho. Har din tumhari muskaan se roshan hota hai aur meri rooh sirf tumhari mohabbat mein khush rehti hai.</p>
-  <p>Tum meri duaon ka sach aur meri har choti khushi ka sabab ho. Main chahta hoon ki hamesha tumhari khushi mere saath ho, aur hamesha tumhara pyaar mere dil mein rahe.</p>
-</div>
+  <!-- Message overlay -->
+  <div class="message-screen" id="messageScreen" aria-hidden="true">
+    <div class="message-card" role="dialog" aria-modal="true">
+      <button class="btn-close" id="closeBtn" aria-label="Close message">✕</button>
+      <div style="text-align:center">
+        <div class="msg-title">My dearest Anmol ❤️</div>
+        <div class="msg-body">
+          <p style="margin-bottom:14px; font-size:28px">Meri pyari Anmol,</p>
+          <p>Jab se tum meri zindagi mein aayi ho, har lamha ek nayi roshni se bhar gaya hai. Tumhari muskurahat mere din ka sabse khubsurat hissa hai. Main har pal tumse bas ek hi cheez chahta hoon — tumhari khushi. </p>
+          <p class="msg-sub">Tap the ✕ to see some romantic songs and cute surprises for you. Record this moment if you want to make it into a reel 😉</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<!-- Songs Section -->
-<div class="songs-screen" id="songsScreen">
-  <h1>🎵 Hindi Romantic Songs for You</h1>
-  <div class="song-list" id="songList"></div>
-  <audio id="songPlayer" controls style="margin-top:20px;width:100%;border-radius:10px;"></audio>
+  <!-- Songs & interactive area -->
+  <div class="songs-screen" id="songsScreen" aria-hidden="true">
+    <div class="songs-inner">
+      <div class="songs-header">
+        <div class="songs-title">🎧 Curated Romantic Songs</div>
+        <div style="font-size:14px;color:rgba(0,0,0,0.6)">Tap any track to play — browser requires a user tap to allow sound</div>
+      </div>
+
+      <div class="playlist" id="playlist"></div>
+
+      <!-- player controls -->
+      <div class="player-controls" id="playerControls" style="display:none">
+        <div style="flex:1">
+          <audio id="player" controls preload="none" style="width:100%"></audio>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
-// Envelope Animation
+/* ------------- Utility: create sparkles ------------- */
+const sparkles = document.getElementById('sparkles');
+for(let i=0;i<24;i++){
+  const s = document.createElement('div');
+  s.className='sparkle';
+  s.style.left = (Math.random()*100) + '%';
+  s.style.top = (Math.random()*100) + '%';
+  s.style.animationDuration = (6 + Math.random()*6) + 's';
+  s.style.animationDelay = (Math.random()*4) + 's';
+  sparkles.appendChild(s);
+}
+
+/* ------------- Envelope interactions ------------- */
 const envelope = document.getElementById('envelope');
 const flap = document.getElementById('flap');
 const messageScreen = document.getElementById('messageScreen');
-const closeMsg = document.getElementById('closeMsg');
+const closeBtn = document.getElementById('closeBtn');
+const openDemo = document.getElementById('openDemo');
+const skipToSongs = document.getElementById('skipToSongs');
 const songsScreen = document.getElementById('songsScreen');
-const songPlayer = document.getElementById('songPlayer');
+const playlistEl = document.getElementById('playlist');
+const player = document.getElementById('player');
+const playerControls = document.getElementById('playerControls');
 
-envelope.addEventListener('click',()=>{
-  flap.style.transform = "rotateX(180deg)";
+function openEnvelope(){
+  // animate flap open
+  flap.style.transform = 'rotateX(180deg)';
+  envelope.style.transition = 'transform .6s';
+  envelope.style.transform = 'scale(.9) translateY(-8px)';
+  // small zoom-in for cinematic effect
   setTimeout(()=>{
     envelope.style.display='none';
-    messageScreen.style.display='block';
-  },500);
+    messageScreen.style.display='flex';
+    messageScreen.setAttribute('aria-hidden','false');
+    // center message card animation handled by CSS
+  },600);
+}
+
+openDemo.addEventListener('click', openEnvelope);
+envelope.addEventListener('click', openEnvelope);
+
+// When user closes message: go to songs
+closeBtn.addEventListener('click', ()=>{
+  messageScreen.style.display='none';
+  messageScreen.setAttribute('aria-hidden','true');
+  songsScreen.style.display='block';
+  songsScreen.setAttribute('aria-hidden','false');
+  // create floating hearts and cat GIFs
+  spawnFloating();
+  // enable popups on scroll
+  enableScrollPopups();
 });
 
-// Close Message
-closeMsg.addEventListener('click',()=>{
+/* Skip button */
+skipToSongs.addEventListener('click', ()=>{
+  envelope.style.display='none';
   messageScreen.style.display='none';
   songsScreen.style.display='block';
-  createHeartsAndGIFs();
-  addScrollPopups();
+  spawnFloating();
+  enableScrollPopups();
 });
 
-// Songs Playable
-const songs = [
-  {name:"Tum Hi Ho", src:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
-  {name:"Raabta", src:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
-  {name:"Tera Ban Jaunga", src:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
-  {name:"Janam Janam", src:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"},
-  {name:"Shayad", src:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"}
+/* ------------- Songs list (playable) ------------- */
+/* Note: For real songs, replace src with direct mp3 URLs or host your own files.
+         The sample mp3s below are public examples and usually playable. */
+const tracks = [
+  {name:'Tum Hi Ho — (Sample)', src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'},
+  {name:'Raabta — (Sample)', src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'},
+  {name:'Tera Ban Jaunga — (Sample)', src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'},
+  {name:'Janam Janam — (Sample)', src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3'},
+  {name:'Shayad — (Sample)', src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3'}
 ];
-const songListDiv = document.getElementById("songList");
-songs.forEach(song=>{
-  const div = document.createElement("div");
-  div.className="song-item";
-  div.innerText = song.name;
-  div.addEventListener("click", ()=>{
-    songPlayer.src = song.src;
-    songPlayer.play();
+
+tracks.forEach((t, idx) => {
+  const tr = document.createElement('div');
+  tr.className='track';
+  tr.setAttribute('role','button');
+  tr.innerHTML = `<div class="name">${t.name}</div><div class="meta">Tap to play</div>`;
+  tr.addEventListener('click', ()=>{
+    // user gesture: set source and play
+    player.src = t.src;
+    player.play().catch(err=>{
+      // browsers block autoplay on some devices; user already tapped so should be ok
+      console.warn('playback prevented:',err);
+    });
+    playerControls.style.display='flex';
+    // subtle highlight animation
+    tr.style.outline = '2px solid rgba(230,57,70,0.12)';
+    setTimeout(()=> tr.style.outline = 'none',1200);
   });
-  songListDiv.appendChild(div);
+  playlistEl.appendChild(tr);
 });
 
-// Hearts + Cat GIFs
-function createHeartsAndGIFs(){
-  const heartEmojis = ['❤️','💖','💘','💞','💝'];
-  for(let i=0;i<20;i++){
-    const heart = document.createElement('div');
-    heart.className='heart';
-    heart.innerText = heartEmojis[i%heartEmojis.length];
-    heart.style.left=Math.random()*90+'%';
-    heart.style.animationDuration=(5+Math.random()*5)+'s';
-    heart.style.animationDelay=(Math.random()*5)+'s';
-    songsScreen.appendChild(heart);
-  }
-  const gifUrls=[
-    'https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif',
-    'https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif',
-    'https://media.giphy.com/media/13borq7Zo2kulO/giphy.gif'
-  ];
-  for(let i=0;i<15;i++){
+/* ------------- Floating cat GIFs & hearts ------------- */
+const catGifs = [
+  'https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif',
+  'https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif',
+  'https://media.giphy.com/media/13borq7Zo2kulO/giphy.gif',
+  'https://media.giphy.com/media/OmK8lulOMQ9XO/giphy.gif',
+  'https://media.giphy.com/media/3oriO7A7bt1wsEP4cw/giphy.gif'
+];
+
+function spawnFloating(){
+  // add a few floating cats and hearts around the page
+  for(let i=0;i<12;i++){
     const img = document.createElement('img');
-    img.className='gif';
-    img.src=gifUrls[i%gifUrls.length];
-    img.style.left=Math.random()*80+'%';
-    img.style.animationDuration=(5+Math.random()*5)+'s';
-    img.style.animationDelay=(Math.random()*5)+'s';
-    songsScreen.appendChild(img);
+    img.className='floating-gif';
+    img.src = catGifs[i % catGifs.length];
+    const size = 70 + Math.round(Math.random()*60);
+    img.style.width = size + 'px';
+    img.style.left = (10 + Math.random()*80) + '%';
+    img.style.top = (60 + Math.random()*30) + 'vh';
+    img.style.transform = `translateY(${30 + Math.random()*20}vh)`;
+    img.style.opacity = 0;
+    img.style.transition = 'opacity .6s, transform 10s linear';
+    document.body.appendChild(img);
+    // fade in and float upward slowly
+    setTimeout(()=>{ img.style.opacity = 1; img.style.transform = `translateY(-40vh)` }, 300 + Math.random()*1000);
+    // remove after some time
+    setTimeout(()=> img.remove(), 14000 + Math.random()*8000);
+  }
+
+  // hearts
+  const hearts = ['❤️','💖','💘','💞'];
+  for(let i=0;i<16;i++){
+    const el = document.createElement('div');
+    el.className = 'floating-heart';
+    el.innerText = hearts[i % hearts.length];
+    const startLeft = (6 + Math.random()*88) + '%';
+    el.style.left = startLeft;
+    el.style.top = (80 + Math.random()*10) + 'vh';
+    el.style.fontSize = (28 + Math.random()*36) + 'px';
+    el.style.opacity = 0;
+    el.style.transition = `opacity .4s, transform ${6 + Math.random()*8}s linear`;
+    document.body.appendChild(el);
+    setTimeout(()=>{ el.style.opacity = 1; el.style.transform = `translateY(-110vh)`; }, 200 + Math.random()*1400);
+    setTimeout(()=> el.remove(), 9000 + Math.random()*10000);
   }
 }
 
-// Scroll Popups
-function addScrollPopups(){
-  const messages=[
-    "Tum meri duniya ho 💖",
-    "Har pal tumhare saath ka ehsaas 🌸",
-    "Meri duaon ka sabse khoobsurat jawab 😍",
-    "Tum meri khushi ka raaz ✨",
-    "Mera dil sirf tumhara ❤️"
-  ];
-  window.addEventListener('scroll',()=>{
-    const randomMsg = messages[Math.floor(Math.random()*messages.length)];
-    const popup = document.createElement('div');
-    popup.className='popup-msg';
-    popup.style.left=Math.random()*70+'%';
-    popup.style.top=(window.scrollY + window.innerHeight - 100)+'px';
-    popup.innerText=randomMsg;
-    songsScreen.appendChild(popup);
-    popup.style.display='block';
-    setTimeout(()=>{popup.remove()},2000);
+/* ------------- Scroll Pop-ups ------------- */
+const popupMsgs = [
+  "Tum meri duniya ho 💖",
+  "Har pal tumhare saath ka ehsaas 🌸",
+  "Meri duaon ka sabse khoobsurat jawab 😍",
+  "Tum meri khushi ka raaz ✨",
+  "Mera dil sirf tumhara ❤️",
+  "Bas tum aur main — hamesha 💞"
+];
+
+let lastPopup = 0;
+function enableScrollPopups(){
+  window.addEventListener('scroll', ()=>{
+    const now = Date.now();
+    // throttle
+    if(now - lastPopup < 1200) return;
+    lastPopup = now;
+    const msg = popupMsgs[Math.floor(Math.random()*popupMsgs.length)];
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.innerText = msg;
+    // random pos near bottom of viewport
+    const left = 8 + Math.random()*70;
+    const top = window.innerHeight - 120 + Math.random()*60;
+    bubble.style.left = left + 'px';
+    bubble.style.top = top + 'px';
+    document.body.appendChild(bubble);
+    // fade out & remove
+    bubble.animate([{opacity:1, transform:'translateY(0px)'},{opacity:0, transform:'translateY(-30px)'}], {duration:2200});
+    setTimeout(()=> bubble.remove(),2400);
   });
 }
+
+/* ------------- Helpful hint: mobile recording guide ------------- */
+(function showMobileTip(){
+  // For small screens show a quick tip bubble near bottom
+  if(window.innerWidth < 800){
+    const tip = document.createElement('div');
+    tip.className = 'bubble';
+    tip.style.left = '8px';
+    tip.style.top = (window.innerHeight - 80) + 'px';
+    tip.innerText = "Tip: Use full-screen + screen-record for reels 📱";
+    document.body.appendChild(tip);
+    setTimeout(()=> tip.remove(), 4500);
+  }
+})();
+
+/* ------------- Accessibility & fallback notes ------------- */
+/* If some external audio hosts are blocked, replace 'tracks[].src' with your own uploaded mp3 file URLs (hosted on your server or a reliable CDN).
+   For perfect reels, export original songs or short instrumental loops and update the src fields. */
+
 </script>
 </body>
 </html>
