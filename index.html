@@ -17,9 +17,9 @@
   /* ==================== Envelope Landing ==================== */
   .envelope-container{
     position:relative;
-    width:150px;
-    height:100px;
-    margin: 150px auto;
+    width:250px;
+    height:180px;
+    margin:150px auto;
     cursor:pointer;
     transition: transform 0.3s;
   }
@@ -30,7 +30,7 @@
     width:100%;
     height:100%;
     background:#e63946;
-    border-radius:10px;
+    border-radius:15px;
     position:relative;
     overflow:hidden;
   }
@@ -48,26 +48,30 @@
   .message-screen{
     display:none;
     text-align:center;
-    padding:2rem;
+    padding:3rem;
     position:relative;
     min-height:100vh;
     overflow:hidden;
   }
   .message-screen h1{
-    font-size:2rem;
-    margin-bottom:1rem;
+    font-size:3rem;
+    margin-bottom:2rem;
+  }
+  .message-screen p{
+    font-size:1.8rem;
+    margin-bottom:1.5rem;
   }
   .close-btn{
     position:absolute;
     top:20px; right:20px;
-    font-size:2rem;
+    font-size:2.5rem;
     cursor:pointer;
     background: #e63946;
     color:#fff;
     border:none;
     border-radius:50%;
-    width:50px;
-    height:50px;
+    width:60px;
+    height:60px;
   }
 
   /* ==================== Songs Section ==================== */
@@ -89,6 +93,7 @@
     box-shadow:0 5px 15px rgba(0,0,0,0.2);
     cursor:pointer;
     transition: transform 0.3s;
+    font-size:1.5rem;
   }
   .song-item:hover{
     transform: scale(1.05);
@@ -96,9 +101,9 @@
   .popup-msg{
     position:absolute;
     background: #ff9ff3;
-    padding:0.6rem 1rem;
+    padding:0.8rem 1.2rem;
     border-radius:10px;
-    font-size:1rem;
+    font-size:1.2rem;
     display:none;
     animation: fadeinout 2s forwards;
   }
@@ -123,7 +128,7 @@
   }
   .gif{
     position:absolute;
-    width:50px;
+    width:70px;
     pointer-events:none;
     animation: floatUp linear infinite;
   }
@@ -132,7 +137,6 @@
     50%{transform: translateY(50vh) scale(1);}
     100%{transform: translateY(-10vh) scale(0);}
   }
-
 </style>
 </head>
 <body>
@@ -149,20 +153,21 @@
   <button class="close-btn" id="closeMsg">X</button>
   <h1>For My Anmol ❤️</h1>
   <p>Meri pyari Anmol,</p>
-  <p>Tum meri zindagi ka sabse khubsurat ehsaas ho. Har din tumhari muskaan se roshan hota hai aur meri rooh sirf tumhari mohabbat mein khush rehti hai. Tum meri duaon ka sach aur meri har choti khushi ka sabab ho.</p>
-  <p>Main chahta hoon ki hamesha tumhari khushi mere saath ho, aur humesha tumhara pyaar mere dil mein rahe.</p>
+  <p>Tum meri zindagi ka sabse khubsurat ehsaas ho. Har din tumhari muskaan se roshan hota hai aur meri rooh sirf tumhari mohabbat mein khush rehti hai.</p>
+  <p>Tum meri duaon ka sach aur meri har choti khushi ka sabab ho. Main chahta hoon ki hamesha tumhari khushi mere saath ho, aur hamesha tumhara pyaar mere dil mein rahe.</p>
 </div>
 
 <!-- ==================== Songs Section ==================== -->
 <div class="songs-screen" id="songsScreen">
   <h1>🎵 Hindi Romantic Songs for You</h1>
   <div class="song-list" id="songList">
-    <div class="song-item" onclick="alert('Playing: Tum Hi Ho')">Tum Hi Ho</div>
-    <div class="song-item" onclick="alert('Playing: Raabta')">Raabta</div>
-    <div class="song-item" onclick="alert('Playing: Tera Ban Jaunga')">Tera Ban Jaunga</div>
-    <div class="song-item" onclick="alert('Playing: Janam Janam')">Janam Janam</div>
-    <div class="song-item" onclick="alert('Playing: Shayad')">Shayad</div>
+    <div class="song-item" data-src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">Tum Hi Ho</div>
+    <div class="song-item" data-src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">Raabta</div>
+    <div class="song-item" data-src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">Tera Ban Jaunga</div>
+    <div class="song-item" data-src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3">Janam Janam</div>
+    <div class="song-item" data-src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3">Shayad</div>
   </div>
+  <audio id="songPlayer" controls style="margin-top:20px;width:100%;border-radius:10px;"></audio>
 </div>
 
 <script>
@@ -172,6 +177,7 @@ const flap = document.getElementById('flap');
 const messageScreen = document.getElementById('messageScreen');
 const closeMsg = document.getElementById('closeMsg');
 const songsScreen = document.getElementById('songsScreen');
+const songPlayer = document.getElementById('songPlayer');
 
 envelope.addEventListener('click',()=>{
   flap.style.transform = "rotateX(180deg)";
@@ -189,57 +195,20 @@ closeMsg.addEventListener('click',()=>{
   addScrollPopups();
 });
 
-// ==================== Hearts & GIFs ====================
+// ==================== Play Songs on Click ====================
+const songItems = document.querySelectorAll('.song-item');
+songItems.forEach(item=>{
+  item.addEventListener('click',()=>{
+    const src = item.getAttribute('data-src');
+    songPlayer.src = src;
+    songPlayer.play();
+  });
+});
+
+// ==================== Hearts & Cat GIFs ====================
 function createHeartsAndGIFs(){
   const songScreen = songsScreen;
   const heartEmojis = ['❤️','💖','💘','💞','💝'];
   for(let i=0;i<20;i++){
     const heart = document.createElement('div');
     heart.className='heart';
-    heart.innerText = heartEmojis[i%heartEmojis.length];
-    heart.style.left=Math.random()*90+'%';
-    heart.style.animationDuration=(5+Math.random()*5)+'s';
-    heart.style.animationDelay=(Math.random()*5)+'s';
-    songScreen.appendChild(heart);
-  }
-  const gifUrls=[
-    'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif',
-    'https://media.giphy.com/media/xUPGcmh8eGQDLJAD7a/giphy.gif',
-    'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif'
-  ];
-  for(let i=0;i<10;i++){
-    const img = document.createElement('img');
-    img.className='gif';
-    img.src=gifUrls[i%gifUrls.length];
-    img.style.left=Math.random()*80+'%';
-    img.style.animationDuration=(5+Math.random()*5)+'s';
-    img.style.animationDelay=(Math.random()*5)+'s';
-    songScreen.appendChild(img);
-  }
-}
-
-// ==================== Scroll Popups ====================
-function addScrollPopups(){
-  const messages=[
-    "Tum meri duniya ho 💖",
-    "Har pal tumhare saath ka ehsaas 🌸",
-    "Meri duaon ka sabse khoobsurat jawab 😍",
-    "Tum meri khushi ka raaz ✨",
-    "Mera dil sirf tumhara ❤️"
-  ];
-  window.addEventListener('scroll',()=>{
-    const randomMsg = messages[Math.floor(Math.random()*messages.length)];
-    const popup = document.createElement('div');
-    popup.className='popup-msg';
-    popup.style.left=Math.random()*70+'%';
-    popup.style.top=(window.scrollY + window.innerHeight - 100)+'px';
-    popup.innerText=randomMsg;
-    songsScreen.appendChild(popup);
-    popup.style.display='block';
-    setTimeout(()=>{popup.remove()},2000);
-  });
-}
-</script>
-
-</body>
-</html>
