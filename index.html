@@ -3,45 +3,66 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anmol ❤️ Love Letter</title>
+<title>Anmol ❤️ Interactive Love Page</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 <style>
+  * {margin:0; padding:0; box-sizing:border-box;}
   body {
-    margin: 0;
-    padding: 0;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Dancing Script', cursive;
     background: linear-gradient(to right, #ffdde1, #ee9ca7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
     overflow: hidden;
     color: #3b0b2e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    transition: background 1s ease;
+  }
+  .controls {
+    margin: 1rem;
+    z-index: 10;
+  }
+  .controls button {
+    margin: 0 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    background: #e63946;
+    color: #fff;
+    transition: 0.3s;
+  }
+  .controls button:hover {
+    background: #d62828;
   }
   .card {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 25px;
-    padding: 2rem 2.5rem;
-    max-width: 700px;
-    width: 90%;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.3);
-    text-align: center;
     position: relative;
+    width: 90%;
+    max-width: 700px;
+    height: 80vh;
+    background: rgba(255,255,255,0.95);
+    border-radius: 25px;
+    padding: 2rem;
+    overflow: hidden;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+    transition: background 1s ease;
   }
   .heart {
     font-size: 90px;
     color: #e63946;
+    text-align: center;
     animation: pulse 1s infinite;
-    margin-bottom: 1rem;
     position: relative;
     z-index: 2;
+    margin-bottom: 1rem;
   }
   @keyframes pulse {
     0% {transform: scale(1);}
     50% {transform: scale(1.3);}
     100% {transform: scale(1);}
   }
-
-  /* Sparkle effect around heart */
   .sparkle {
     position: absolute;
     width: 6px;
@@ -57,44 +78,61 @@
     50% {transform: translate(var(--x), var(--y)) scale(1); opacity: 1;}
     100% {transform: translate(var(--x), var(--y)) scale(0); opacity: 0;}
   }
-
-  .section-title {
-    font-weight: bold;
-    margin: 1rem 0;
-    font-size: 1.4rem;
+  .content {
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    transition: transform 1s ease;
   }
   .line, .letter p {
+    font-size: 1.6rem;
     opacity: 0;
     transform: translateY(20px);
-    transition: all 0.8s ease-out;
-    margin: 0.5rem 0;
+    margin: 0.8rem 0;
+    text-align: center;
+    transition: all 1s ease-out;
   }
   .line.show, .letter p.show {
     opacity: 1;
     transform: translateY(0);
   }
-  .letter {
+  .letter p {
+    font-size: 1.4rem;
     text-align: left;
-    margin-top: 1rem;
     line-height: 1.6;
-    font-size: 1rem;
+    margin: 1rem 0;
+  }
+  .gif {
+    position: absolute;
+    width: 50px;
+    pointer-events: none;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0% {transform: translateY(100vh) scale(0);}
+    50% {transform: translateY(50vh) scale(1);}
+    100% {transform: translateY(-10vh) scale(0);}
   }
 </style>
 </head>
 <body>
-<div class="card">
-    <div class="heart">❤️</div>
-    <div class="section-title">Shayari for Anmol</div>
-    <div id="shayari"></div>
-    <div class="letter" id="letter">
-        <p>Meri pyari Anmol,</p>
-        <p>Kabhi socha nahi tha ki ek din meri zindagi mein koi aisi rooh aayegi jo sirf ek insaan nahi, balki meri khushi ki wajah ban jaayegi. Tum meri duniya ka woh hissa ho jisme dard bhi ho toh halka lagta hai, aur khushi ho toh hazaar guna badh jaati hai.</p>
-        <p>Tere saath baatein karna, teri hansi sunna, teri aankhon mein apne liye mohabbat dekhna — ye sab mere liye sabse badi daulat hai. Tum mere liye sirf ek naam nahi ho; tum meri duaon ka sach, mere jazbaat ka izhaar, aur meri har roohani tamanna ka jawab ho.</p>
-        <p>Anmol, tum meri zindagi ka woh ehsaas ho jo lafzon se pare hai. Tumhe khone ka khayal bhi mujhe tod deta hai, aur tumhe paane ka ehsaas mujhe nayi zindagi deta hai. Main chahta hoon ke meri har subah tumhari muskurahat se shuru ho aur meri har shaam tumhari baahon mein khatam.</p>
-        <p>Tum meri mohabbat ho, meri dua ho, meri rooh ka sukoon ho. Aur main wada karta hoon ki chahe waqt kitna bhi badal jaaye, meri mohabbat tumhare liye kabhi kam nahi hogi. Tum meri zindagi ka sabse Anmol tohfa ho.</p>
-        <p>Hamesha tumhara,<br>[Tumhara Naam]</p>
-    </div>
+
+<div class="controls">
+  <button onclick="showSection('shayari')">Shayari</button>
+  <button onclick="showSection('letter')">Love Letter</button>
+  <button onclick="toggleTheme()">Romantic Theme</button>
+  <button onclick="toggleMusic()">Play/Pause Music 🎵</button>
 </div>
+
+<div class="card">
+  <div class="heart">❤️</div>
+  <div class="content" id="content"></div>
+</div>
+
+<audio id="music" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 const shayariLines = [
@@ -112,52 +150,113 @@ const shayariLines = [
 "Tu hai toh duniya hai rangin, tu hai toh hai sukoon-o-jam."
 ];
 
-const shayariContainer = document.getElementById("shayari");
-const letterParagraphs = document.querySelectorAll("#letter p");
+const letterParagraphs = [
+"Meri pyari Anmol,",
+"Kabhi socha nahi tha ki ek din meri zindagi mein koi aisi rooh aayegi jo sirf ek insaan nahi, balki meri khushi ki wajah ban jaayegi. Tum meri duniya ka woh hissa ho jisme dard bhi ho toh halka lagta hai, aur khushi ho toh hazaar guna badh jaati hai.",
+"Tere saath baatein karna, teri hansi sunna, teri aankhon mein apne liye mohabbat dekhna — ye sab mere liye sabse badi daulat hai. Tum mere liye sirf ek naam nahi ho; tum meri duaon ka sach, mere jazbaat ka izhaar, aur meri har roohani tamanna ka jawab ho.",
+"Anmol, tum meri zindagi ka woh ehsaas ho jo lafzon se pare hai. Tumhe khone ka khayal bhi mujhe tod deta hai, aur tumhe paane ka ehsaas mujhe nayi zindagi deta hai. Main chahta hoon ke meri har subah tumhari muskurahat se shuru ho aur meri har shaam tumhari baahon mein khatam.",
+"Tum meri mohabbat ho, meri dua ho, meri rooh ka sukoon ho. Aur main wada karta hoon ki chahe waqt kitna bhi badal jaaye, meri mohabbat tumhare liye kabhi kam nahi hogi. Tum meri zindagi ka sabse Anmol tohfa ho.",
+"Hamesha tumhara, Biki"
+];
 
-// Add shayari lines to DOM
-shayariLines.forEach(line => {
-    const div = document.createElement("div");
-    div.className = "line";
-    div.textContent = line;
-    shayariContainer.appendChild(div);
-});
+const contentDiv = document.getElementById("content");
+const music = document.getElementById("music");
+let currentSection = 'shayari';
 
-// Animate text one by one
-function animateText(elements, delay=600, callback=null) {
-    let i = 0;
-    const interval = setInterval(() => {
-        if (i >= elements.length) {
-            clearInterval(interval);
-            if (callback) callback();
-            return;
-        }
-        elements[i].classList.add("show");
-        i++;
-    }, delay);
+function populateContent(section){
+  contentDiv.innerHTML = '';
+  let lines = section==='shayari'? shayariLines : letterParagraphs;
+  lines.forEach(line => {
+    const el = document.createElement(section==='shayari'? 'div':'p');
+    el.className = section==='shayari'? 'line':'letter';
+    el.textContent = line;
+    contentDiv.appendChild(el);
+  });
+  animateText(contentDiv.querySelectorAll(section==='shayari'? '.line':'.letter'));
 }
+
+function animateText(elements){
+  let idx=0;
+  function next(){
+    if(idx<elements.length){
+      elements[idx].classList.add('show');
+      idx++;
+      setTimeout(next,700);
+    }
+  }
+  next();
+  startScroll();
+}
+
+function startScroll(){
+  let pos = 0;
+  const speed = 0.3;
+  function scrollStep(){
+    pos += speed;
+    contentDiv.style.transform = `translateY(-${pos}px)`;
+    requestAnimationFrame(scrollStep);
+  }
+  scrollStep();
+}
+
+function showSection(section){
+  currentSection = section;
+  populateContent(section);
+}
+
+function toggleMusic(){
+  if(music.paused) music.play();
+  else music.pause();
+}
+
+function toggleTheme(){
+  if(document.body.style.background.includes('#ffdde1')){
+    document.body.style.background = 'linear-gradient(to right, #a1c4fd, #c2e9fb)';
+    document.querySelector('.card').style.background = 'rgba(245, 222, 179,0.95)';
+  } else {
+    document.body.style.background = 'linear-gradient(to right, #ffdde1, #ee9ca7)';
+    document.querySelector('.card').style.background = 'rgba(255,255,255,0.95)';
+  }
+}
+
+// Floating cute GIFs
+function createGifs(){
+  const card = document.querySelector('.card');
+  const gifUrls = [
+    'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif',
+    'https://media.giphy.com/media/xUPGcmh8eGQDLJAD7a/giphy.gif',
+    'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif',
+  ];
+  for(let i=0;i<10;i++){
+    const img = document.createElement('img');
+    img.src = gifUrls[i%gifUrls.length];
+    img.className = 'gif';
+    img.style.left = Math.random()*80 + '%';
+    img.style.animationDuration = (5+Math.random()*5) + 's';
+    img.style.animationDelay = (Math.random()*5)+'s';
+    card.appendChild(img);
+  }
+}
+
+populateContent(currentSection);
+createGifs();
 
 // Heart sparkles
 function createSparkles() {
-    const heart = document.querySelector(".heart");
-    for(let i=0;i<20;i++){
-        const sparkle = document.createElement("div");
-        sparkle.className="sparkle";
-        const x = (Math.random()*120-60)+"px";
-        const y = (Math.random()*120-60)+"px";
-        sparkle.style.setProperty("--x", x);
-        sparkle.style.setProperty("--y", y);
-        sparkle.style.animationDelay = (Math.random()*1.5)+"s";
-        heart.appendChild(sparkle);
-    }
+  const heart = document.querySelector(".heart");
+  for(let i=0;i<25;i++){
+    const sparkle = document.createElement("div");
+    sparkle.className="sparkle";
+    const x = (Math.random()*140-70)+"px";
+    const y = (Math.random()*140-70)+"px";
+    sparkle.style.setProperty("--x", x);
+    sparkle.style.setProperty("--y", y);
+    sparkle.style.animationDelay = (Math.random()*2)+"s";
+    heart.appendChild(sparkle);
+  }
 }
-
-// Start everything
 createSparkles();
-const shayariDivs = document.querySelectorAll("#shayari .line");
-animateText(shayariDivs, 700, () => {
-    animateText(letterParagraphs, 900);
-});
 </script>
+
 </body>
 </html>
