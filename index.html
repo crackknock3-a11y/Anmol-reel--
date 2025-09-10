@@ -3,259 +3,242 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anmol ❤️ Interactive Love Page</title>
+<title>Anmol ❤️ Special Love Page</title>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 <style>
-  * {margin:0; padding:0; box-sizing:border-box;}
-  body {
-    font-family: 'Dancing Script', cursive;
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:'Dancing Script', cursive;
+    overflow-x:hidden;
     background: linear-gradient(to right, #ffdde1, #ee9ca7);
-    overflow: hidden;
-    color: #3b0b2e;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    transition: background 1s ease;
+    min-height:100vh;
+    color:#3b0b2e;
   }
-  .controls {
-    margin: 1rem;
-    z-index: 10;
+  /* ==================== Envelope Landing ==================== */
+  .envelope-container{
+    position:relative;
+    width:150px;
+    height:100px;
+    margin: 150px auto;
+    cursor:pointer;
+    transition: transform 0.3s;
   }
-  .controls button {
-    margin: 0 0.5rem;
-    padding: 0.6rem 1.2rem;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
+  .envelope-container:hover{
+    transform: scale(1.1) rotate(-2deg);
+  }
+  .envelope{
+    width:100%;
+    height:100%;
+    background:#e63946;
+    border-radius:10px;
+    position:relative;
+    overflow:hidden;
+  }
+  .flap{
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:50%;
+    background:#d62828;
+    clip-path: polygon(0 0, 50% 100%, 100% 0);
+    transform-origin: top;
+    transition: transform 0.5s;
+  }
+
+  /* ==================== Love Message ==================== */
+  .message-screen{
+    display:none;
+    text-align:center;
+    padding:2rem;
+    position:relative;
+    min-height:100vh;
+    overflow:hidden;
+  }
+  .message-screen h1{
+    font-size:2rem;
+    margin-bottom:1rem;
+  }
+  .close-btn{
+    position:absolute;
+    top:20px; right:20px;
+    font-size:2rem;
+    cursor:pointer;
     background: #e63946;
-    color: #fff;
-    transition: 0.3s;
+    color:#fff;
+    border:none;
+    border-radius:50%;
+    width:50px;
+    height:50px;
   }
-  .controls button:hover {
-    background: #d62828;
+
+  /* ==================== Songs Section ==================== */
+  .songs-screen{
+    display:none;
+    padding:2rem;
+    min-height:100vh;
+    position:relative;
   }
-  .card {
-    position: relative;
-    width: 90%;
-    max-width: 700px;
-    height: 80vh;
-    background: rgba(255,255,255,0.95);
-    border-radius: 25px;
-    padding: 2rem;
-    overflow: hidden;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.3);
-    transition: background 1s ease;
+  .song-list{
+    display:flex;
+    flex-direction:column;
+    gap:1.5rem;
   }
-  .heart {
-    font-size: 90px;
-    color: #e63946;
-    text-align: center;
-    animation: pulse 1s infinite;
-    position: relative;
-    z-index: 2;
-    margin-bottom: 1rem;
+  .song-item{
+    padding:1rem;
+    background: #ffe6f0;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+    cursor:pointer;
+    transition: transform 0.3s;
   }
-  @keyframes pulse {
-    0% {transform: scale(1);}
-    50% {transform: scale(1.3);}
-    100% {transform: scale(1);}
+  .song-item:hover{
+    transform: scale(1.05);
   }
-  .sparkle {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: #fff;
-    border-radius: 50%;
-    opacity: 0;
-    pointer-events: none;
-    animation: sparkleAnim 1.5s infinite;
+  .popup-msg{
+    position:absolute;
+    background: #ff9ff3;
+    padding:0.6rem 1rem;
+    border-radius:10px;
+    font-size:1rem;
+    display:none;
+    animation: fadeinout 2s forwards;
   }
-  @keyframes sparkleAnim {
-    0% {transform: translate(0,0) scale(0); opacity: 1;}
-    50% {transform: translate(var(--x), var(--y)) scale(1); opacity: 1;}
-    100% {transform: translate(var(--x), var(--y)) scale(0); opacity: 0;}
+  @keyframes fadeinout{
+    0%{opacity:0; transform:translateY(20px);}
+    20%{opacity:1; transform:translateY(0);}
+    80%{opacity:1; transform:translateY(0);}
+    100%{opacity:0; transform:translateY(-20px);}
   }
-  .content {
-    position: absolute;
-    width: 100%;
-    top: 100%;
-    left: 0;
-    transition: transform 1s ease;
+
+  /* ==================== Heart + GIFs ==================== */
+  .heart{
+    position:absolute;
+    font-size:50px;
+    animation: floatHeart linear infinite;
+    pointer-events:none;
   }
-  .line, .letter p {
-    font-size: 1.6rem;
-    opacity: 0;
-    transform: translateY(20px);
-    margin: 0.8rem 0;
-    text-align: center;
-    transition: all 1s ease-out;
+  @keyframes floatHeart{
+    0%{transform: translateY(100vh) scale(0);}
+    50%{transform: translateY(50vh) scale(1);}
+    100%{transform: translateY(-10vh) scale(0);}
   }
-  .line.show, .letter p.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .letter p {
-    font-size: 1.4rem;
-    text-align: left;
-    line-height: 1.6;
-    margin: 1rem 0;
-  }
-  .gif {
-    position: absolute;
-    width: 50px;
-    pointer-events: none;
+  .gif{
+    position:absolute;
+    width:50px;
+    pointer-events:none;
     animation: floatUp linear infinite;
   }
-  @keyframes floatUp {
-    0% {transform: translateY(100vh) scale(0);}
-    50% {transform: translateY(50vh) scale(1);}
-    100% {transform: translateY(-10vh) scale(0);}
+  @keyframes floatUp{
+    0%{transform: translateY(100vh) scale(0);}
+    50%{transform: translateY(50vh) scale(1);}
+    100%{transform: translateY(-10vh) scale(0);}
   }
+
 </style>
 </head>
 <body>
 
-<div class="controls">
-  <button onclick="showSection('shayari')">Shayari</button>
-  <button onclick="showSection('letter')">Love Letter</button>
-  <button onclick="toggleTheme()">Romantic Theme</button>
-  <button onclick="toggleMusic()">Play/Pause Music 🎵</button>
+<!-- ==================== Envelope Landing ==================== -->
+<div class="envelope-container" id="envelope">
+  <div class="envelope">
+    <div class="flap" id="flap"></div>
+  </div>
 </div>
 
-<div class="card">
-  <div class="heart">❤️</div>
-  <div class="content" id="content"></div>
+<!-- ==================== Love Message ==================== -->
+<div class="message-screen" id="messageScreen">
+  <button class="close-btn" id="closeMsg">X</button>
+  <h1>For My Anmol ❤️</h1>
+  <p>Meri pyari Anmol,</p>
+  <p>Tum meri zindagi ka sabse khubsurat ehsaas ho. Har din tumhari muskaan se roshan hota hai aur meri rooh sirf tumhari mohabbat mein khush rehti hai. Tum meri duaon ka sach aur meri har choti khushi ka sabab ho.</p>
+  <p>Main chahta hoon ki hamesha tumhari khushi mere saath ho, aur humesha tumhara pyaar mere dil mein rahe.</p>
 </div>
 
-<audio id="music" loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-</audio>
+<!-- ==================== Songs Section ==================== -->
+<div class="songs-screen" id="songsScreen">
+  <h1>🎵 Hindi Romantic Songs for You</h1>
+  <div class="song-list" id="songList">
+    <div class="song-item" onclick="alert('Playing: Tum Hi Ho')">Tum Hi Ho</div>
+    <div class="song-item" onclick="alert('Playing: Raabta')">Raabta</div>
+    <div class="song-item" onclick="alert('Playing: Tera Ban Jaunga')">Tera Ban Jaunga</div>
+    <div class="song-item" onclick="alert('Playing: Janam Janam')">Janam Janam</div>
+    <div class="song-item" onclick="alert('Playing: Shayad')">Shayad</div>
+  </div>
+</div>
 
 <script>
-const shayariLines = [
-"Tere naam se mehka hai har ek pal, Anmol,",
-"Meri rooh ka noor hai tu, meri zindagi ka asal.",
-"Tere bina adhoori lagti hai yeh dastaan,",
-"Tu hai toh har safar hai gulistaan.",
-"Teri muskaan se jagmagata hai sama,",
-"Jaise chand ki roshni se roshan ho raat ka gagan.",
-"Tere lafzon mein hai nasha, tere chehre mein hai noor,",
-"Tu hi hai meri dua, tu hi mera gurur.",
-"Anmol, tu meri duaon ka sabse khoobsurat jawab hai,",
-"Tere bina yeh dil ek veerane ka khwab hai.",
-"Har saans mein tera zikr, har dhadkan mein tera naam,",
-"Tu hai toh duniya hai rangin, tu hai toh hai sukoon-o-jam."
-];
+// ==================== Envelope Animation ====================
+const envelope = document.getElementById('envelope');
+const flap = document.getElementById('flap');
+const messageScreen = document.getElementById('messageScreen');
+const closeMsg = document.getElementById('closeMsg');
+const songsScreen = document.getElementById('songsScreen');
 
-const letterParagraphs = [
-"Meri pyari Anmol,",
-"Kabhi socha nahi tha ki ek din meri zindagi mein koi aisi rooh aayegi jo sirf ek insaan nahi, balki meri khushi ki wajah ban jaayegi. Tum meri duniya ka woh hissa ho jisme dard bhi ho toh halka lagta hai, aur khushi ho toh hazaar guna badh jaati hai.",
-"Tere saath baatein karna, teri hansi sunna, teri aankhon mein apne liye mohabbat dekhna — ye sab mere liye sabse badi daulat hai. Tum mere liye sirf ek naam nahi ho; tum meri duaon ka sach, mere jazbaat ka izhaar, aur meri har roohani tamanna ka jawab ho.",
-"Anmol, tum meri zindagi ka woh ehsaas ho jo lafzon se pare hai. Tumhe khone ka khayal bhi mujhe tod deta hai, aur tumhe paane ka ehsaas mujhe nayi zindagi deta hai. Main chahta hoon ke meri har subah tumhari muskurahat se shuru ho aur meri har shaam tumhari baahon mein khatam.",
-"Tum meri mohabbat ho, meri dua ho, meri rooh ka sukoon ho. Aur main wada karta hoon ki chahe waqt kitna bhi badal jaaye, meri mohabbat tumhare liye kabhi kam nahi hogi. Tum meri zindagi ka sabse Anmol tohfa ho.",
-"Hamesha tumhara, Biki"
-];
+envelope.addEventListener('click',()=>{
+  flap.style.transform = "rotateX(180deg)";
+  setTimeout(()=>{
+    envelope.style.display='none';
+    messageScreen.style.display='block';
+  },500);
+});
 
-const contentDiv = document.getElementById("content");
-const music = document.getElementById("music");
-let currentSection = 'shayari';
+// ==================== Close Love Message ====================
+closeMsg.addEventListener('click',()=>{
+  messageScreen.style.display='none';
+  songsScreen.style.display='block';
+  createHeartsAndGIFs();
+  addScrollPopups();
+});
 
-function populateContent(section){
-  contentDiv.innerHTML = '';
-  let lines = section==='shayari'? shayariLines : letterParagraphs;
-  lines.forEach(line => {
-    const el = document.createElement(section==='shayari'? 'div':'p');
-    el.className = section==='shayari'? 'line':'letter';
-    el.textContent = line;
-    contentDiv.appendChild(el);
-  });
-  animateText(contentDiv.querySelectorAll(section==='shayari'? '.line':'.letter'));
-}
-
-function animateText(elements){
-  let idx=0;
-  function next(){
-    if(idx<elements.length){
-      elements[idx].classList.add('show');
-      idx++;
-      setTimeout(next,700);
-    }
+// ==================== Hearts & GIFs ====================
+function createHeartsAndGIFs(){
+  const songScreen = songsScreen;
+  const heartEmojis = ['❤️','💖','💘','💞','💝'];
+  for(let i=0;i<20;i++){
+    const heart = document.createElement('div');
+    heart.className='heart';
+    heart.innerText = heartEmojis[i%heartEmojis.length];
+    heart.style.left=Math.random()*90+'%';
+    heart.style.animationDuration=(5+Math.random()*5)+'s';
+    heart.style.animationDelay=(Math.random()*5)+'s';
+    songScreen.appendChild(heart);
   }
-  next();
-  startScroll();
-}
-
-function startScroll(){
-  let pos = 0;
-  const speed = 0.3;
-  function scrollStep(){
-    pos += speed;
-    contentDiv.style.transform = `translateY(-${pos}px)`;
-    requestAnimationFrame(scrollStep);
-  }
-  scrollStep();
-}
-
-function showSection(section){
-  currentSection = section;
-  populateContent(section);
-}
-
-function toggleMusic(){
-  if(music.paused) music.play();
-  else music.pause();
-}
-
-function toggleTheme(){
-  if(document.body.style.background.includes('#ffdde1')){
-    document.body.style.background = 'linear-gradient(to right, #a1c4fd, #c2e9fb)';
-    document.querySelector('.card').style.background = 'rgba(245, 222, 179,0.95)';
-  } else {
-    document.body.style.background = 'linear-gradient(to right, #ffdde1, #ee9ca7)';
-    document.querySelector('.card').style.background = 'rgba(255,255,255,0.95)';
-  }
-}
-
-// Floating cute GIFs
-function createGifs(){
-  const card = document.querySelector('.card');
-  const gifUrls = [
+  const gifUrls=[
     'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif',
     'https://media.giphy.com/media/xUPGcmh8eGQDLJAD7a/giphy.gif',
-    'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif',
+    'https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif'
   ];
   for(let i=0;i<10;i++){
     const img = document.createElement('img');
-    img.src = gifUrls[i%gifUrls.length];
-    img.className = 'gif';
-    img.style.left = Math.random()*80 + '%';
-    img.style.animationDuration = (5+Math.random()*5) + 's';
-    img.style.animationDelay = (Math.random()*5)+'s';
-    card.appendChild(img);
+    img.className='gif';
+    img.src=gifUrls[i%gifUrls.length];
+    img.style.left=Math.random()*80+'%';
+    img.style.animationDuration=(5+Math.random()*5)+'s';
+    img.style.animationDelay=(Math.random()*5)+'s';
+    songScreen.appendChild(img);
   }
 }
 
-populateContent(currentSection);
-createGifs();
-
-// Heart sparkles
-function createSparkles() {
-  const heart = document.querySelector(".heart");
-  for(let i=0;i<25;i++){
-    const sparkle = document.createElement("div");
-    sparkle.className="sparkle";
-    const x = (Math.random()*140-70)+"px";
-    const y = (Math.random()*140-70)+"px";
-    sparkle.style.setProperty("--x", x);
-    sparkle.style.setProperty("--y", y);
-    sparkle.style.animationDelay = (Math.random()*2)+"s";
-    heart.appendChild(sparkle);
-  }
+// ==================== Scroll Popups ====================
+function addScrollPopups(){
+  const messages=[
+    "Tum meri duniya ho 💖",
+    "Har pal tumhare saath ka ehsaas 🌸",
+    "Meri duaon ka sabse khoobsurat jawab 😍",
+    "Tum meri khushi ka raaz ✨",
+    "Mera dil sirf tumhara ❤️"
+  ];
+  window.addEventListener('scroll',()=>{
+    const randomMsg = messages[Math.floor(Math.random()*messages.length)];
+    const popup = document.createElement('div');
+    popup.className='popup-msg';
+    popup.style.left=Math.random()*70+'%';
+    popup.style.top=(window.scrollY + window.innerHeight - 100)+'px';
+    popup.innerText=randomMsg;
+    songsScreen.appendChild(popup);
+    popup.style.display='block';
+    setTimeout(()=>{popup.remove()},2000);
+  });
 }
-createSparkles();
 </script>
 
 </body>
